@@ -4,8 +4,8 @@ import Ranking from "@/components/Raking/page";
 export default function Home() {
   return (
     <div>
-      {/* <HomePage /> */}
-      <Ranking />
+      <HomePage />
+      {/* <Ranking /> */}
     </div>
   );
 }

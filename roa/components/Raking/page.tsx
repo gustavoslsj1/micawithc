@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Trophy, Star, TrendingUp } from "lucide-react";
 
-export default function Ranking() {
+export default function Raking() {
   //   const [reviews, setReviews] = useState<Review[]>([]);
   //   const [loading, setLoading] = useState(true);
   //   const [filter, setFilter] = useState<'all' | 'anime' | 'movie'>('all');
