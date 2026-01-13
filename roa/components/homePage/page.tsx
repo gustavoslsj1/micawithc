@@ -1,41 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Star, Sparkles, ArrowRight } from "lucide-react";
-// import { supabase, Review } from '../lib/supabase';
 
-interface HomeProps {
-  onNavigate: (page: string) => void;
-}
+import { Sparkles, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
-export default function HomePage({ onNavigate }: HomeProps) {
-  //   const [featuredReviews, setFeaturedReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  //   useEffect(() => {
-  //     loadFeaturedReviews();
-  //   }, []);
-
-  //   async function loadFeaturedReviews() {
-  //     try {
-  //       const { data, error } = await supabase
-  //         .from('reviews')
-  //         .select('*')
-  //         .eq('featured', true)
-  //         .order('rating', { ascending: false })
-  //         .limit(6);
-
-  //       if (error) throw error;
-  //       setFeaturedReviews(data || []);
-  //     } catch (error) {
-  //       console.error('Error loading featured reviews:', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-
+export default function HomePage() {
   return (
     <div className="min-h-screen">
-      <div className="relative overflow-hidden bg-gradient-to-b from-black via-purple-900/20 to-black">
+      <div className="relative overflow-hidden bg-linear-to-b from-black via-purple-900/20 to-black">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjeWFuIiBzdHJva2Utd2lkdGg9IjAuNSIgb3BhY2l0eT0iMC4xIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 text-center">
@@ -47,7 +18,7 @@ export default function HomePage({ onNavigate }: HomeProps) {
           </div>
 
           <h1 className="text-5xl sm:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               CyberReview
             </span>
           </h1>
@@ -63,16 +34,10 @@ export default function HomePage({ onNavigate }: HomeProps) {
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <button
-              onClick={() => onNavigate("animes")}
-              className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-lg shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all"
-            >
+            <button className="px-8 py-3 bg-linear-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-lg shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all">
               Explorar Animes
             </button>
-            <button
-              onClick={() => onNavigate("movies")}
-              className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] transition-all"
-            >
+            <button className="px-8 py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] transition-all">
               Descobrir Filmes
             </button>
           </div>
@@ -90,27 +55,23 @@ export default function HomePage({ onNavigate }: HomeProps) {
               ciberpunk
             </p>
           </div>
-          <button
-            onClick={() => onNavigate("ranking")}
-            className="hidden sm:flex items-center space-x-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-lg hover:bg-cyan-500/20 transition-all"
-          >
-            <span>Ver Ranking</span>
+          <button className="hidden sm:flex items-center space-x-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-lg hover:bg-cyan-500/20 transition-all">
+            <Link href="/ranking"> Ver Rankings</Link>
             <ArrowRight size={18} />
           </button>
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-gray-800/50 rounded-xl h-96 animate-pulse"
-              ></div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* {featuredReviews.map((review) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="bg-gray-800/50 rounded-xl h-96 animate-pulse"
+            ></div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* {featuredReviews.map((review) => (
               <div
                 key={review.id}
                 className="group relative bg-gradient-to-b from-gray-800/50 to-gray-900/50 rounded-xl overflow-hidden border border-gray-700/50 hover:border-cyan-500/50 transition-all cursor-pointer"
@@ -169,8 +130,7 @@ export default function HomePage({ onNavigate }: HomeProps) {
                 </div>
               </div>
             ))} */}
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

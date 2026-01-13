@@ -1,4 +1,5 @@
 import { Film, Tv, Trophy, Home } from "lucide-react";
+import Link from "next/link";
 
 // interface NavbarProps {
 //   currentPage: string;
@@ -22,7 +23,7 @@ export default function Navbar() {
               //   onClick={() => onNavigate('home')}
               className="text-2xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-cyan-300 hover:via-purple-300 hover:to-pink-300 transition-all"
             >
-              CyberReview
+              <Link href="/">CyberReview</Link>
             </button>
           </div>
 
