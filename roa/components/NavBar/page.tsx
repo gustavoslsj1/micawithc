@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { Film, Tv, Trophy, Home } from "lucide-react";
-import Link from "next/link";
 
 export default function Navbar() {
   const page =
@@ -56,6 +55,7 @@ export default function Navbar() {
             );
           })}
         </div>
+      </div>
       </div>
     </nav>
   );
