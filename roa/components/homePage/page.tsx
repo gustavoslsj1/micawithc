@@ -63,6 +63,11 @@ export default function HomePage() {
             <ArrowRight size={18} />
           </button>
         </div>
+        <div className=" mt-36  flex justify-baseline items-baseline">
+          <h1 className="text-white font-bold text-2xl">
+            Ultimos episodios assistidos
+          </h1>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
@@ -110,13 +115,13 @@ export default function HomePage() {
                         />
                       ))}
                       <span className="ml-2 text-cyan-400 font-bold">
-                        {review.rating.toFixed(1)}
+                       
                       </span>
-                    </div>
-                    <span className="text-gray-500 text-sm">{review.release_year}</span>
-                  </div>
+                    </div> */}
+                <span className="text-gray-500 text-sm"></span>
+              </div>
 
-                  <div className="mt-3 flex flex-wrap gap-1">
+              {/* <div className="mt-3 flex flex-wrap gap-1">
                     {review.genres.slice(0, 3).map((genre, i) => (
                       <span
                         key={i}
@@ -125,7 +130,7 @@ export default function HomePage() {
                         {genre}
                       </span>
                     ))}
-                  </div>
+                  </div> */}
 
                   <button className="mt-4 w-full py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 text-cyan-400 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
                     Ver Review
