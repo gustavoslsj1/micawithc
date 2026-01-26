@@ -12,7 +12,7 @@ export default function Navbar() {
 
   const navItems = [
     { id: "/", label: "Home", icon: Home },
-    { id: "Ranking", label: "Ranking", icon: Trophy },
+    { id: "ranking", label: "Ranking", icon: Trophy },
     { id: "animes", label: "Animes", icon: Tv },
     { id: "movies", label: "Movies", icon: Film },
   ];
@@ -30,15 +30,15 @@ export default function Navbar() {
             </button>
           </div>
 
-        <div className="flex space-x-1  ">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentPage === item.id;
+          <div className="flex space-x-1  ">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPage === item.id;
 
-            return (
-              <button
-                key={item.id}
-                className={`
+              return (
+                <button
+                  key={item.id}
+                  className={`
                     flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all
                     ${
                       isActive
@@ -46,16 +46,16 @@ export default function Navbar() {
                         : "text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
                     }
                   `}
-              >
-                <Icon size={18} />
-                <a href={item.id} className="hidden sm:inline">
-                  {item.label}
-                </a>
-              </button>
-            );
-          })}
+                >
+                  <Icon size={18} />
+                  <a href={item.id} className="hidden sm:inline">
+                    {item.label}
+                  </a>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
       </div>
     </nav>
   );
