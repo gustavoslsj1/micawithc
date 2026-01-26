@@ -59,7 +59,7 @@ export default function HomePage() {
             </p>
           </div>
           <button className="hidden sm:flex items-center space-x-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-lg hover:bg-cyan-500/20 transition-all">
-            <Link href="/ranking"> Ver Rankings</Link>
+            <Link href="/Ranking"> Ver Rankings</Link>
             <ArrowRight size={18} />
           </button>
         </div>
@@ -118,10 +118,10 @@ export default function HomePage() {
                        
                       </span>
                     </div> */}
-                <span className="text-gray-500 text-sm"></span>
-              </div>
+          <span className="text-gray-500 text-sm"></span>
+        </div>
 
-              {/* <div className="mt-3 flex flex-wrap gap-1">
+        {/* <div className="mt-3 flex flex-wrap gap-1">
                     {review.genres.slice(0, 3).map((genre, i) => (
                       <span
                         key={i}
@@ -132,13 +132,12 @@ export default function HomePage() {
                     ))}
                   </div> */}
 
-                  <button className="mt-4 w-full py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 text-cyan-400 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* <button className="mt-4 w-full py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 text-cyan-400 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
                     Ver Review
                   </button>
                 </div>
               </div>
             ))} */}
-        </div>
       </div>
     </div>
   );

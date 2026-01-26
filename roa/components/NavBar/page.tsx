@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { Film, Tv, Trophy, Home } from "lucide-react";
-import Link from "next/link";
 
 export default function Navbar() {
   const page =
@@ -31,15 +30,15 @@ export default function Navbar() {
             </button>
           </div>
 
-        <div className="flex space-x-1  ">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentPage === item.id;
+          <div className="flex space-x-1  ">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPage === item.id;
 
-            return (
-              <button
-                key={item.id}
-                className={`
+              return (
+                <button
+                  key={item.id}
+                  className={`
                     flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all
                     ${
                       isActive
@@ -47,14 +46,15 @@ export default function Navbar() {
                         : "text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
                     }
                   `}
-              >
-                <Icon size={18} />
-                <a href={item.id} className="hidden sm:inline">
-                  {item.label}
-                </a>
-              </button>
-            );
-          })}
+                >
+                  <Icon size={18} />
+                  <a href={item.id} className="hidden sm:inline">
+                    {item.label}
+                  </a>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </nav>
