@@ -59,7 +59,7 @@ export default function HomePage() {
             </p>
           </div>
           <button className="hidden sm:flex items-center space-x-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-lg hover:bg-cyan-500/20 transition-all">
-            <Link href="/Ranking"> Ver Rankings</Link>
+            <Link href="/ranking"> Ver Rankings</Link>
             <ArrowRight size={18} />
           </button>
         </div>
