@@ -1,5 +1,5 @@
-import Ranking from "@/components/Raking/page";
+import Raking from "@/components/Raking/page";
 
-export default function RankingPage() {
-  return <Ranking />;
+export default function Ranking() {
+  return <Raking />;
 }
