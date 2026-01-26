@@ -79,65 +79,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* {featuredReviews.map((review) => (
-              <div
-                key={review.id}
-                className="group relative bg-gradient-to-b from-gray-800/50 to-gray-900/50 rounded-xl overflow-hidden border border-gray-700/50 hover:border-cyan-500/50 transition-all cursor-pointer"
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
-
-                <div className="relative p-6 h-full flex flex-col justify-end">
-                  <div className="mb-2">
-                    <span className="inline-block px-3 py-1 bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 text-xs font-medium rounded-full">
-                      {review.type === 'anime' ? 'ANIME' : 'MOVIE'}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
-                    {review.title}
-                  </h3>
-
-                  <p className="text-gray-400 text-sm mb-3 line-clamp-2">
-                    {review.synopsis}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          size={16}
-                          className={
-                            i < Math.floor(review.rating)
-                              ? 'fill-yellow-400 text-yellow-400'
-                              : 'text-gray-600'
-                          }
-                        />
-                      ))}
-                      <span className="ml-2 text-cyan-400 font-bold">
-                       
-                      </span>
-                    </div> */}
-                <span className="text-gray-500 text-sm"></span>
-              </div>
-
-              {/* <div className="mt-3 flex flex-wrap gap-1">
-                    {review.genres.slice(0, 3).map((genre, i) => (
-                      <span
-                        key={i}
-                        className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded"
-                      >
-                        {genre}
-                      </span>
-                    ))}
-                  </div> */}
-
-                  <button className="mt-4 w-full py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 text-cyan-400 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                    Ver Review
-                  </button>
-                </div>
-              </div>
-            ))} */}
+          {/* Placeholder content while data is loading */}
         </div>
       </div>
     </div>
