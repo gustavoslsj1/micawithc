@@ -21,7 +21,7 @@ export default function Ranking() {
       title: "uzumaki",
       type: "anime",
       Temporada: "1",
-      Image: "/uzumaki2.jpg",
+      Image: "/anime/uzumaki.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 5.5,
@@ -43,7 +43,7 @@ export default function Ranking() {
     },
     {
       title: "You",
-      type: "Serie",
+      type: "serie",
       Temporada: "1",
       Image: "/serie/you.jpg",
       checked: true,
@@ -157,7 +157,7 @@ export default function Ranking() {
       title: "Cães de caça",
       type: "serie",
       Temporada: "1",
-      Image: "/serie/caesdecaça.jpg",
+      Image: "/serie/caesdecaca.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 6,
@@ -212,6 +212,7 @@ export default function Ranking() {
     {
       title: "Paranorman",
       type: "filme",
+      Image: "/filme/paranorman.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 6,
@@ -222,6 +223,7 @@ export default function Ranking() {
     {
       title: "Inatividade Paranormal",
       type: "filme",
+      Image: "/filme/inatividade1.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 9.5,
@@ -232,6 +234,7 @@ export default function Ranking() {
     {
       title: "Inatividade Paranormal 2",
       type: "filme",
+      Image: "/filme/inatividade2.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 9,
@@ -242,6 +245,7 @@ export default function Ranking() {
     {
       title: "Sword Art Online",
       type: "anime",
+      Image: "/anime/swordartonline.jpg",
       Temporada: "1",
       checked: true,
       Badge: "verificado",
@@ -253,6 +257,7 @@ export default function Ranking() {
     {
       title: "To Be Hero",
       type: "anime",
+      Image: "/anime/tobehero.jpg",
       Temporada: "1",
       checked: true,
       Badge: "verificado",
@@ -264,6 +269,7 @@ export default function Ranking() {
     {
       title: "Erased",
       type: "anime",
+      Image: "/anime/erased.jpg",
       Temporada: "1",
       checked: true,
       Badge: "verificado",
@@ -275,6 +281,7 @@ export default function Ranking() {
     {
       title: "Uma Fazenda Maluca",
       type: "filme",
+      Image: "/filme/umafazendamaluca.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 1,
@@ -285,6 +292,7 @@ export default function Ranking() {
     {
       title: "[Rec] 1",
       type: "filme",
+      Image: "/filme/rec1.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 8.9,
@@ -295,6 +303,7 @@ export default function Ranking() {
     {
       title: "Dandadan",
       type: "anime",
+      Image: "/anime/dandadan.jpg",
       Temporada: "1",
       checked: true,
       Badge: "verificado",
@@ -306,6 +315,7 @@ export default function Ranking() {
     {
       title: "O Cemitério das Almas Perdidas",
       type: "filme",
+      Image: "/filme/cemiterioalmasperdidas.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 6.9,
@@ -316,6 +326,7 @@ export default function Ranking() {
     {
       title: "Invocação do Mal 4",
       type: "filme",
+      Image: "/filme/invocacaodomal4.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 6,
@@ -326,6 +337,7 @@ export default function Ranking() {
     {
       title: "Jackass 4.5",
       type: "filme",
+      Image: "/filme/jackass4.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 8,
@@ -336,6 +348,7 @@ export default function Ranking() {
     {
       title: "Ranking of Kings",
       type: "anime",
+      Image: "/anime/rankingofkings.jpg",
       Temporada: "1",
       checked: true,
       Badge: "verificado",
@@ -347,6 +360,7 @@ export default function Ranking() {
     {
       title: "Hai to Gensou no Grimgar",
       type: "anime",
+      Image: "/anime/grimgar.jpg",
       Temporada: "1",
       checked: true,
       Badge: "verificado",
@@ -358,6 +372,7 @@ export default function Ranking() {
     {
       title: "Oshi no Ko",
       type: "anime",
+      Image: "/anime/oshinoko.jpg",
       Temporada: "1",
       NotaGugu: 9.5,
       NotaMika: 9,
@@ -367,6 +382,7 @@ export default function Ranking() {
     {
       title: "Chainsaw Man: O Filme - Arco da Reze",
       type: "filme",
+      Image: "/filme/chainsawmanfilme.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 9.5,
