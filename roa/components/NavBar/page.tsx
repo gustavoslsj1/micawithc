@@ -12,7 +12,7 @@ export default function Navbar() {
 
   const navItems = [
     { id: "/", label: "Home", icon: Home },
-    { id: "Ranking", label: "Ranking", icon: Trophy },
+    { id: "ranking", label: "Ranking", icon: Trophy },
     { id: "animes", label: "Animes", icon: Tv },
     { id: "movies", label: "Movies", icon: Film },
   ];

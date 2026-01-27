@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 
 type TipoConteudo = "todos" | "anime" | "filme" | "serie";
@@ -20,6 +21,9 @@ export default function Ranking() {
       title: "uzumaki",
       type: "anime",
       Temporada: "1",
+      Image: "/anime/uzumaki.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 5.5,
       NotaMika: 5,
       synopsis:
@@ -29,6 +33,9 @@ export default function Ranking() {
       title: "Akame ga kill",
       type: "anime",
       Temporada: "1",
+      Image: "/akamegakill.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 7.5,
       NotaMika: 7.5,
       synopsis:
@@ -36,8 +43,9 @@ export default function Ranking() {
     },
     {
       title: "You",
-      type: "Serie",
+      type: "serie",
       Temporada: "1",
+      Image: "/serie/you.jpg",
       checked: true,
       Badge: "verificado",
       NotaGugu: 9.5,
@@ -49,6 +57,9 @@ export default function Ranking() {
       title: "Re Life",
       type: "anime",
       Temporada: "1",
+      Image: "/anime/relife.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 8,
       NotaMika: 8.5,
       synopsis:
@@ -58,6 +69,9 @@ export default function Ranking() {
       title: "Chainsaw Man",
       type: "anime",
       Temporada: "1",
+      Image: "/anime/chainsawman.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 9,
       NotaMika: 8,
       synopsis:
@@ -67,6 +81,7 @@ export default function Ranking() {
       title: "Grand Blue",
       type: "anime",
       Temporada: "1",
+      Image: "/anime/grandblue.jpg",
       NotaGugu: 7.5,
       NotaMika: 8.5,
       synopsis:
@@ -76,6 +91,9 @@ export default function Ranking() {
       title: "Cyberpunk Edgerunners",
       type: "anime",
       Temporada: "1",
+      Image: "/anime/cyberpunk.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 10,
       NotaMika: 9,
       synopsis:
@@ -84,7 +102,9 @@ export default function Ranking() {
     {
       title: "Exterminio 2",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/exterminio2.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 7.5,
       NotaMika: 7,
       synopsis:
@@ -93,7 +113,9 @@ export default function Ranking() {
     {
       title: "Metal Lords",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/metallords.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 7,
       NotaMika: 9.5,
       synopsis:
@@ -102,24 +124,30 @@ export default function Ranking() {
     {
       title: "O serviço de entregas da kiki",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/kiki.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 6,
       NotaMika: 10,
       synopsis:
         "Kiki, uma jovem bruxa, cria um serviço de entregas enquanto aprende a viver sozinha e a confiar em si mesma.",
     },
-    // {
-    //   title: "Black Mirror",
-    //   type: "serie",
-    //   Temporada: "1",
-    //   NotaGugu: 8,
-    //   NotaMika: 8,
-    //   synopsis: "Série antológica que explora os impactos sombrios da tecnologia na sociedade moderna."
-    // },
+     {
+      title: "Black Mirror",
+      type: "serie",
+      Temporada: "1",
+      Image: "/serie/blackmirror.jpg",
+      NotaGugu: 8,
+      NotaMika: 8,
+      synopsis: "Série antológica que explora os impactos sombrios da tecnologia na sociedade moderna."
+    },
     {
       title: "Jogo da Morte",
       type: "serie",
       Temporada: "1",
+      Image: "/serie/jogodamorte.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 6.5,
       NotaMika: 8,
       synopsis:
@@ -129,6 +157,9 @@ export default function Ranking() {
       title: "Cães de caça",
       type: "serie",
       Temporada: "1",
+      Image: "/serie/caesdecaca.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 6,
       NotaMika: 8,
       synopsis:
@@ -137,7 +168,9 @@ export default function Ranking() {
     {
       title: "A noiva-cadáver",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/noivacadaver.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 7,
       NotaMika: 10,
       synopsis:
@@ -146,7 +179,9 @@ export default function Ranking() {
     {
       title: "Premonição 1",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/premonicao1.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 8,
       NotaMika: 7,
       synopsis:
@@ -155,7 +190,9 @@ export default function Ranking() {
     {
       title: "Premonição 3",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/premonicao3.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 8.5,
       NotaMika: 8.5,
       synopsis:
@@ -164,7 +201,9 @@ export default function Ranking() {
     {
       title: "Premonição 6",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/premonicao6.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 8,
       NotaMika: 8,
       synopsis:
@@ -173,7 +212,9 @@ export default function Ranking() {
     {
       title: "Paranorman",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/paranorman.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 6,
       NotaMika: 9,
       synopsis:
@@ -182,7 +223,9 @@ export default function Ranking() {
     {
       title: "Inatividade Paranormal",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/inatividade1.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 9.5,
       NotaMika: 9,
       synopsis:
@@ -191,7 +234,9 @@ export default function Ranking() {
     {
       title: "Inatividade Paranormal 2",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/inatividade2.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 9,
       NotaMika: 9,
       synopsis:
@@ -200,7 +245,10 @@ export default function Ranking() {
     {
       title: "Sword Art Online",
       type: "anime",
+      Image: "/anime/swordartonline.jpg",
       Temporada: "1",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 9,
       NotaMika: 8.5,
       synopsis:
@@ -209,7 +257,10 @@ export default function Ranking() {
     {
       title: "To Be Hero",
       type: "anime",
+      Image: "/anime/tobehero.jpg",
       Temporada: "1",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 9.5,
       NotaMika: 8.75,
       synopsis:
@@ -218,7 +269,10 @@ export default function Ranking() {
     {
       title: "Erased",
       type: "anime",
+      Image: "/anime/erased.jpg",
       Temporada: "1",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 10,
       NotaMika: 8.75,
       synopsis:
@@ -226,8 +280,10 @@ export default function Ranking() {
     },
     {
       title: "Uma Fazenda Maluca",
-      type: "serie",
-      Temporada: "1",
+      type: "filme",
+      Image: "/filme/umafazendamaluca.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 1,
       NotaMika: 7,
       synopsis:
@@ -236,7 +292,9 @@ export default function Ranking() {
     {
       title: "[Rec] 1",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/rec1.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 8.9,
       NotaMika: 7,
       synopsis:
@@ -245,7 +303,10 @@ export default function Ranking() {
     {
       title: "Dandadan",
       type: "anime",
+      Image: "/anime/dandadan.jpg",
       Temporada: "1",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 7.9,
       NotaMika: 9,
       synopsis:
@@ -254,7 +315,9 @@ export default function Ranking() {
     {
       title: "O Cemitério das Almas Perdidas",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/cemiterioalmasperdidas.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 6.9,
       NotaMika: 5,
       synopsis:
@@ -263,11 +326,69 @@ export default function Ranking() {
     {
       title: "Invocação do Mal 4",
       type: "filme",
-      Temporada: "1",
+      Image: "/filme/invocacaodomal4.jpg",
+      checked: true,
+      Badge: "verificado",
       NotaGugu: 6,
       NotaMika: 7.5,
       synopsis:
         "Os investigadores paranormais Ed e Lorraine Warren enfrentam um novo caso demoníaco que desafia sua fé e limites.",
+    },
+    {
+      title: "Jackass 4.5",
+      type: "filme",
+      Image: "/filme/jackass4.jpg",
+      checked: true,
+      Badge: "verificado",
+      NotaGugu: 8,
+      NotaMika: 7,
+      synopsis:
+        "Jackass Forever é uma compilação de acrobacias, esquetes e pegadinhas intercaladas com entrevistas com o elenco no set de filmagem.",
+    },
+    {
+      title: "Ranking of Kings",
+      type: "anime",
+      Image: "/anime/rankingofkings.jpg",
+      Temporada: "1",
+      checked: true,
+      Badge: "verificado",
+      NotaGugu: 7.5,
+      NotaMika: 8,
+      synopsis:
+        "Conheça Bojji, um príncipe surdo e impotente que nem sequer pode empunhar a espada de uma criança. Como filho primogênito, ele esforça-se e sonha em tornar-se o maior rei do mundo.",
+    },
+    {
+      title: "Hai to Gensou no Grimgar",
+      type: "anime",
+      Image: "/anime/grimgar.jpg",
+      Temporada: "1",
+      checked: true,
+      Badge: "verificado",
+      NotaGugu: 8.5,
+      NotaMika: 7.5,
+      synopsis:
+        " é um anime de fantasia e sobrevivência onde um grupo de jovens acorda em um mundo estilo RPG sem memórias do passado. Para sobreviver, eles precisam se tornar \"soldados voluntários\", caçando monstros e lidando com a dura realidade da luta, fome e perda em um ambiente hostil. O anime explora temas de amizade, crescimento pessoal e adaptação a um novo mundo desconhecido.     ",
+    },
+    {
+      title: "Oshi no Ko",
+      type: "anime",
+      Image: "/anime/oshinoko.jpg",
+      Temporada: "1",
+      NotaGugu: 9.5,
+      NotaMika: 9,
+      synopsis:
+        " Um médico e sua paciente recém-falecido renascem como gêmeos de uma famosa estrela da música japonesa e vivenciam os altos e baixos da indústria do entretenimento japonesa enquanto crescem juntos ao longo de suas vidas.",
+    },
+    {
+      title: "Chainsaw Man: O Filme - Arco da Reze",
+      type: "filme",
+      Image: "/filme/chainsawmanfilme.jpg",
+      checked: true,
+      Badge: "verificado",
+      NotaGugu: 9.5,
+      NotaMika: 9,
+      synopsis:
+        " Denji, um jovem caçador de demônios traído pela yakuza, sobrevive ao se fundir com seu cão demoníaco Pochita, tornando-se o Chainsaw Man. Em meio a batalhas brutais, a chegada da misteriosa Reze o leva ao seu confronto mais mortal.",
     },
   ];
 
@@ -325,7 +446,7 @@ export default function Ranking() {
           </p>
         </div>
         <div className="flex flex-col border-2 border-black rounded-2xl p-6 ring-2 ring-white shadow-2xl shadow-white">
-          <li className="list-none">
+          <li className="list-none p-0 m-0">
             <h3 className="text-2xl font-bold flex flex-row gap-3 items-center justify-center bg-linear-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
               lista de animes e colocações <Star color="yellow" />
             </h3>
@@ -359,44 +480,61 @@ export default function Ranking() {
 
                 return (
                   <li
-                    className="border-b m-5 bg-gray-900 rounded-2xl p-3"
+                    className="border-b m-5 bg-gray-900 rounded-2xl p-3  "
                     key={item.title}
                   >
-                    <div className="flex flex-row items-center gap-3 flex-wrap mb-2 ">
-                      <h1 className="font-bold text-3xl">{item.title}</h1>
-                      <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-md text-sm font-bold">
-                        #{rankingGeral} Geral
-                      </span>
-                      <span className="px-2 py-1 bg-purple-500/20 text-purple-400 rounded-md text-sm font-bold">
-                        #{rankingCategoria} em {getCategoriaLabel(item.type)}
-                      </span>
-                    </div>
-                    {item.checked && (
-                      <Badge>
-                        <BadgeCheckIcon className="w-4 h-4" />
-                        {item.Badge}
-                      </Badge>
-                    )}
-                    <h2 className="text-[#C47BE4]">
-                      <span className="text-gray-300  text-xl"> synopsis:</span>{" "}
-                      {item.synopsis}
-                    </h2>
-                    <h3 className=" text-gray-300 text-xl">
-                      Temporada: {item.Temporada}
-                    </h3>
+                    <div className="justify-center items-center gap-5 px-2 grid grid-cols-[1fr_4fr]">
+                      <div className="w-full h-64 relative rounded-lg overflow-hidden"> 
+                        <Image
+                          src={item.Image ?? "/default-image.jpg"}
+                          alt={item.title}
+                          
+                          fill
+              
+                        />{" "}
+                      </div>
+                      <div>
+                        <div className="flex flex-row items-center gap-3 flex-wrap mb-2 ">
+                          <h1 className="font-bold text-3xl">{item.title}</h1>
+                          <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-md text-sm font-bold">
+                            #{rankingGeral} Geral
+                          </span>
+                          <span className="px-2 py-1 bg-purple-500/20 text-purple-400 rounded-md text-sm font-bold">
+                            #{rankingCategoria} em{" "}
+                            {getCategoriaLabel(item.type)}
+                          </span>
+                        </div>
+                        {item.checked && (
+                          <Badge>
+                            <BadgeCheckIcon className="w-4 h-4" />
+                            {item.Badge}
+                          </Badge>
+                        )}
+                        <h2 className="text-[#C47BE4]">
+                          <span className="text-gray-300  text-xl">
+                            {" "}
+                            synopsis:
+                          </span>{" "}
+                          {item.synopsis}
+                        </h2>
+                        <h3 className=" text-gray-300 text-xl">
+                          Temporada: {item.Temporada}
+                        </h3>
 
-                    <p className=" text-gray-300 text-xl flex flex-row gap-3 flex-wrap">
-                      Nota: {rankingFinal?.toFixed(1)}
-                      <Star />=
-                      <span className="text-purple-700 mx-5  flex flex-row gap-3">
-                        Mika: {item.NotaMika} <Star />
-                        <span className="font-bold mx-5">+</span>
-                      </span>
-                      <span className=" text-cyan-600 flex flex-row gap-3">
-                        Gugu: {item.NotaGugu}
-                        <Star />
-                      </span>
-                    </p>
+                        <p className=" text-gray-300 text-xl flex flex-row gap-3 flex-wrap">
+                          Nota: {rankingFinal?.toFixed(1)}
+                          <Star />=
+                          <span className="text-purple-700 mx-5  flex flex-row gap-3">
+                            Mika: {item.NotaMika} <Star />
+                            <span className="font-bold mx-5">+</span>
+                          </span>
+                          <span className=" text-cyan-600 flex flex-row gap-3">
+                            Gugu: {item.NotaGugu}
+                            <Star />
+                          </span>
+                        </p>
+                      </div>
+                    </div>
                   </li>
                 );
               })}
