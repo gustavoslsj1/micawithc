@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { Trophy, Star, BadgeCheckIcon } from "lucide-react";
 import {
   Select,
@@ -21,9 +22,7 @@ export default function Ranking() {
       title: "uzumaki",
       type: "anime",
       Temporada: "1",
-      Image: "/anime/uzumaki.jpg",
-      checked: true,
-      Badge: "verificado",
+      Image: "/uzumaki.jpg",
       NotaGugu: 5.5,
       NotaMika: 5,
       synopsis:
@@ -400,7 +399,7 @@ export default function Ranking() {
 
   const getRankingCategoria = (item: (typeof lista)[0]) => {
     const mesmaCategoria = listaOrdenadaGeral.filter(
-      (i) => i.type === item.type
+      (i) => i.type === item.type,
     );
     return mesmaCategoria.findIndex((i) => i.title === item.title) + 1;
   };
@@ -483,43 +482,28 @@ export default function Ranking() {
                     className="border-b m-5 bg-gray-900 rounded-2xl p-3  "
                     key={item.title}
                   >
-                    <div className="justify-center items-center gap-5 px-2 grid grid-cols-[1fr_4fr]">
-                      <div className="w-full h-64 relative rounded-lg overflow-hidden"> 
-                        <Image
-                          src={item.Image ?? "/default-image.jpg"}
-                          alt={item.title}
-                          
-                          fill
-              
-                        />{" "}
-                      </div>
-                      <div>
-                        <div className="flex flex-row items-center gap-3 flex-wrap mb-2 ">
-                          <h1 className="font-bold text-3xl">{item.title}</h1>
-                          <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-md text-sm font-bold">
-                            #{rankingGeral} Geral
-                          </span>
-                          <span className="px-2 py-1 bg-purple-500/20 text-purple-400 rounded-md text-sm font-bold">
-                            #{rankingCategoria} em{" "}
-                            {getCategoriaLabel(item.type)}
-                          </span>
-                        </div>
-                        {item.checked && (
-                          <Badge>
-                            <BadgeCheckIcon className="w-4 h-4" />
-                            {item.Badge}
-                          </Badge>
-                        )}
-                        <h2 className="text-[#C47BE4]">
-                          <span className="text-gray-300  text-xl">
-                            {" "}
-                            synopsis:
-                          </span>{" "}
-                          {item.synopsis}
-                        </h2>
-                        <h3 className=" text-gray-300 text-xl">
-                          Temporada: {item.Temporada}
-                        </h3>
+                    <div className="flex flex-row items-center gap-3 flex-wrap mb-2 ">
+                      <h1 className="font-bold text-3xl">{item.title}</h1>
+                      <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-md text-sm font-bold">
+                        #{rankingGeral} Geral
+                      </span>
+                      <span className="px-2 py-1 bg-purple-500/20 text-purple-400 rounded-md text-sm font-bold">
+                        #{rankingCategoria} em {getCategoriaLabel(item.type)}
+                      </span>
+                    </div>
+                    {item.checked && (
+                      <Badge>
+                        <BadgeCheckIcon className="w-4 h-4" />
+                        {item.Badge}
+                      </Badge>
+                    )}
+                    <h2 className="text-[#C47BE4]">
+                      <span className="text-gray-300  text-xl"> synopsis:</span>{" "}
+                      {item.synopsis}
+                    </h2>
+                    <h3 className=" text-gray-300 text-xl">
+                      Temporada: {item.Temporada}
+                    </h3>
 
                         <p className=" text-gray-300 text-xl flex flex-row gap-3 flex-wrap">
                           Nota: {rankingFinal?.toFixed(1)}

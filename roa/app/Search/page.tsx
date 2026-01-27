@@ -1,5 +1,5 @@
-import SearchSeries from "@/components/New series/page";
+import SearchPag from "@/components/Search/page";
 
-export default function SearchSeriesPag() {
-  return <SearchSeries />;
+export default function Search() {
+  return <SearchPag />;
 }

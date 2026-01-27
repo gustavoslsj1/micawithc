@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight, ArrowBigRight } from "lucide-react";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -33,16 +33,13 @@ export default function HomePage() {
             Sci-Fi
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="px-8 py-3 bg-linear-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-lg shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all">
-              Explorar Animes
-            </button>
-            <button className="px-8 py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] transition-all">
-              Descobrir Filmes
-            </button>
-            <button className="px-8 py-3 bg-linear-to-r from-yellow-500 to-orange-500 text-white font-medium rounded-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(227,116,0,0.7)] transition-all">
-              <Link href="/Search">Descobrir Series</Link>
-            </button>
+          <div className="flex justify-center">
+            <Link href="/Search">
+              <button className="px-8 cursor-pointer flex flex-row gap-5 py-3 bg-linear-to-r text-xl justify-center items-center from-purple-500 to-pink-500 text-white rounded-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] transition-all hover:translate-x-1">
+                Escolha o Que Assistir Hoje
+                <ArrowBigRight size={24} />
+              </button>
+            </Link>
           </div>
         </div>
       </div>
