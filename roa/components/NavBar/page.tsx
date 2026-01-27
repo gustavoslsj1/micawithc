@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Film, Tv, Trophy, Home } from "lucide-react";
+import { Search, Trophy, Home } from "lucide-react";
 
 export default function Navbar() {
   const page =
@@ -13,8 +13,7 @@ export default function Navbar() {
   const navItems = [
     { id: "/", label: "Home", icon: Home },
     { id: "ranking", label: "Ranking", icon: Trophy },
-    { id: "animes", label: "Animes", icon: Tv },
-    { id: "movies", label: "Movies", icon: Film },
+    { id: "Search", label: "Search", icon: Search },
   ];
 
   return (
