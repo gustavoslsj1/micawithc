@@ -14,9 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { rankingLista } from "@/lib/ranking-list";
 import Image from "next/image";
+import Link from "next/link";
 
 const internships = rankingLista.map((item, index) => ({
-  id: index + 1,
+  ids: index + 1,
+  id: item.id,
   title: item.title,
   type: item.type,
   Image: item.Image ?? null,
@@ -196,118 +198,106 @@ export default function SearchPag() {
             <div className="space-y-4">
               {filteredList.map((internship) => (
                 <div
-                  key={internship.id}
+                  key={internship.ids}
                   className="bg-[#12121a] rounded-xl p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex gap-4">
-                      {/* Icon */}
-                      <div className="w-full h-28 relative rounded-lg overflow-hidden">
-                                              <Image
-                                                src={internship.Image ?? "/default-image.jpg"}
-                                                alt={internship.title}
-                                                fill
-                                              />{" "}
-                                            </div>
-
-                      <div>
-                        <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                          {internship.title}
-                        </h3>
-                        <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
-                          <Building2 className="w-4 h-4 text-fuchsia-400" />
-                          <span> {internship.type}</span>
-                          <span className="text-cyan-500">•</span>
-                          <MapPin className="w-4 h-4 text-cyan-400" />
-                          <span className="text-gray-50">
-                            classificação: {internship.Idade}+
-                          </span>
-                        </div>
-
-                        {/* Details Grid */}
-                        <div className="flex gap-6 mt-4 text-sm">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-cyan-400" />
-                            <div>
-                              <p className="text-gray-500 text-xs">
-                                Start Date
-                              </p>
-                              <p className="text-white">
-                                {internship.startDate}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-fuchsia-400" />
-                            <div>
-                              <div className="flex items-center gap-2">
-                          
-                            <div>
-                              <p className="text-gray-500 text-xs">
-                                {internship.type === "filme" ? "Duração" : "Episódios"}
-                              </p>
-                              <p className="text-white">
-                                {internship.type === "filme"
-                                  ? internship.duration
-                                  : internship.episodes}
-                              </p>
-                            </div>
-                          </div>
-
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-fuchsia-400" />
-                            <div>
-                              <p className="text-gray-500 text-xs">
-                                Temporadas
-                              </p>
-                              <p className="text-white">
-                                {internship.temporada}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-fuchsia-400" />
-                            <div>
-                              <p className="text-gray-500 text-xs">
-                                Last Date To Apply
-                              </p>
-                              <p className="text-white">
-                                {internship.lastDate}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Tags */}
-                        <div className="flex gap-2 mt-4">
-                          {internship.genero
-                            ? internship.genero.map((tag, index) => (
-                                <span
-                                  key={index}
-                                  className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                    tag.includes("Pre Placement")
-                                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
-                                      : "bg-fuchsia-500/20 text-fuchsia-400 border border-fuchsia-500/30"
-                                  }`}
-                                >
-                                  {tag.trim()}
-                                </span>
-                              ))
-                            : null}
-                        </div>
-                      </div>
+                  <div className="grid grid-cols-[200px_1fr_130px] justify-center items-center grid-rows-1 gap-4">
+                    {/* Icon */}
+                    <div className="w-full h-45 relative rounded-lg overflow-hidden">
+                      <Image
+                        src={internship.Image ?? "/default-image.jpg"}
+                        alt={internship.title}
+                        fill
+                      />{" "}
                     </div>
 
-                    {/* Right Side */}
-                    <div className="text-right">
+                    <div>
+                      <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
+                        {internship.title}
+                      </h3>
+                      <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
+                        <Building2 className="w-4 h-4 text-fuchsia-400" />
+                        <span> {internship.type}</span>
+                        <span className="text-cyan-500">•</span>
+                        <MapPin className="w-4 h-4 text-cyan-400" />
+                        <span className="text-gray-50">
+                          classificação: {internship.Idade}+
+                        </span>
+                      </div>
+
+                      {/* Details Grid */}
+                      <div className="flex gap-6 mt-4 text-sm">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-cyan-400" />
+                          <div>
+                            <p className="text-gray-500 text-xs">Start Date</p>
+                            <p className="text-white">{internship.startDate}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-fuchsia-400" />
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <div>
+                                <p className="text-gray-500 text-xs">
+                                  {internship.type === "filme"
+                                    ? "Duração"
+                                    : "Episódios"}
+                                </p>
+                                <p className="text-white">
+                                  {internship.type === "filme"
+                                    ? internship.duration
+                                    : internship.episodes}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-fuchsia-400" />
+                          <div>
+                            <p className="text-gray-500 text-xs">Temporadas</p>
+                            <p className="text-white">{internship.temporada}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-fuchsia-400" />
+                          <div>
+                            <p className="text-gray-500 text-xs">
+                              Last Date To Apply
+                            </p>
+                            <p className="text-white">{internship.lastDate}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tags */}
+                      <div className="flex gap-2 mt-4">
+                        {internship.genero
+                          ? internship.genero.map((tag, index) => (
+                              <span
+                                key={index}
+                                className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                  tag.includes("Pre Placement")
+                                    ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
+                                    : "bg-fuchsia-500/20 text-fuchsia-400 border border-fuchsia-500/30"
+                                }`}
+                              >
+                                {tag.trim()}
+                              </span>
+                            ))
+                          : null}
+                      </div>
+                    </div>
+                    <div className="text-right flex flex-col   ">
                       <p className="text-xs text-gray-500 mb-4">
                         Posted {internship.postedDays} Days Ago
                       </p>
                       <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow">
-                        View Details →
+                        <Link href={`/ranking/${internship.id}`}>
+                          View Details
+                        </Link>
                       </Button>
                     </div>
                   </div>

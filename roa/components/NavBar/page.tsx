@@ -12,8 +12,8 @@ export default function Navbar() {
 
   const navItems = [
     { id: "/", label: "Home", icon: Home },
-    { id: "ranking", label: "Ranking", icon: Trophy },
-    { id: "Search", label: "Search", icon: Search },
+    { id: "/ranking", label: "Ranking", icon: Trophy },
+    { id: "/Search", label: "Search", icon: Search },
   ];
 
   return (

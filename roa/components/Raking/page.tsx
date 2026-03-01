@@ -1,7 +1,17 @@
 "use client";
 import { useState } from "react";
 
-import { Trophy, Star, BadgeCheckIcon } from "lucide-react";
+import {
+  Trophy,
+  BadgeCheckIcon,
+  Star,
+  MessageSquare,
+  Briefcase,
+  Building2,
+  MapPin,
+  Calendar,
+  Clock,
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -11,386 +21,29 @@ import {
 } from "../ui/select";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "../ui/button";
+import { rankingLista } from "@/lib/ranking-list";
 
 type TipoConteudo = "todos" | "anime" | "filme" | "serie";
 
+const lista = rankingLista.map((item, index) => ({
+  id: index + 1,
+  title: item.title,
+  type: item.type,
+  startDate: item.startDate,
+  duration: item.duration,
+  genero: item.generos ?? [],
+  lastDate: item.lastDate,
+  Image: item.Image,
+  NotaGugu: item.NotaGugu,
+  NotaMika: item.NotaMika,
+  Idade: item.Idade ?? "0",
+  postedDays: item.postedDays,
+}));
+
 export default function Ranking() {
   const [filter, setfilter] = useState<TipoConteudo>("todos");
-
-  const lista = [
-    {
-      title: "uzumaki",
-      type: "anime",
-      Temporada: "1",
-      Image: "/anime/uzumaki.jpg",
-      NotaGugu: 5.5,
-      NotaMika: 5,
-      synopsis:
-        "Ekirie tenta escapar de sua cidade, Kurouzu-cho, onde os moradores ficam obcecados por espirais devido a uma maldição inexplicável.",
-    },
-    {
-      title: "Akame ga kill",
-      type: "anime",
-      Temporada: "1",
-      Image: "/anime/akamegakill.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 7.5,
-      NotaMika: 7.5,
-      synopsis:
-        "O jovem Tatsumi viaja para a capital do Império para ganhar dinheiro para seu povo faminto e acaba se envolvendo com a Night Raid, um grupo de assassinos que luta contra a corrupção do governo.",
-    },
-    {
-      title: "You",
-      type: "serie",
-      Temporada: "1",
-      Image: "/serie/you.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 9.5,
-      NotaMika: 9,
-      synopsis:
-        "Série de suspense psicológico que acompanha Joe Goldberg, um homem aparentemente gentil que se torna perigosamente obcecado pelas pessoas que ama.",
-    },
-    {
-      title: "Re Life",
-      type: "anime",
-      Temporada: "1",
-      Image: "/anime/relife.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 8,
-      NotaMika: 8.5,
-      synopsis:
-        "Arata Kaizaki recebe a chance de refazer a vida ao voltar ao ensino médio por um ano, enfrentando amadurecimento, amizades e escolhas difíceis.",
-    },
-    {
-      title: "Chainsaw Man",
-      type: "anime",
-      Temporada: "1",
-      Image: "/anime/chainsawman.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 9,
-      NotaMika: 8,
-      synopsis:
-        "Denji se funde ao demônio Pochita e passa a caçar demônios como uma arma humana em um mundo violento e cruel.",
-    },
-    {
-      title: "Grand Blue",
-      type: "anime",
-      Temporada: "1",
-      Image: "/anime/grandblue.jpg",
-      NotaGugu: 7.5,
-      NotaMika: 8.5,
-      synopsis:
-        "Iori Kitahara entra para um clube de mergulho e acaba vivendo situações caóticas cheias de festas, exageros e amizade.",
-    },
-    {
-      title: "Cyberpunk Edgerunners",
-      type: "anime",
-      Temporada: "1",
-      Image: "/anime/cyberpunk.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 10,
-      NotaMika: 9,
-      synopsis:
-        "David Martinez tenta sobreviver em Night City e se envolve com mercenários em uma história trágica sobre ambição, perda e humanidade.",
-    },
-    {
-      title: "Exterminio 2",
-      type: "filme",
-      Image: "/filme/exterminio2.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 7.5,
-      NotaMika: 7,
-      synopsis:
-        "Após o suposto controle do vírus da raiva, uma falha humana provoca um novo surto que mergulha Londres novamente no caos.",
-    },
-    {
-      title: "Metal Lords",
-      type: "filme",
-      Image: "/filme/metallords.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 7,
-      NotaMika: 9.5,
-      synopsis:
-        "Dois adolescentes formam uma banda de heavy metal para competir em um festival escolar, lidando com amizade e identidade.",
-    },
-    {
-      title: "O serviço de entregas da kiki",
-      type: "filme",
-      Image: "/filme/kiki.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 6,
-      NotaMika: 10,
-      synopsis:
-        "Kiki, uma jovem bruxa, cria um serviço de entregas enquanto aprende a viver sozinha e a confiar em si mesma.",
-    },
-    {
-      title: "Black Mirror",
-      type: "serie",
-      Temporada: "1",
-      Image: "/serie/blackmirror.jpg",
-      NotaGugu: 8,
-      NotaMika: 8,
-      synopsis:
-        "Série antológica que explora os impactos sombrios da tecnologia na sociedade moderna.",
-    },
-    {
-      title: "Jogo da Morte",
-      type: "serie",
-      Temporada: "1",
-      Image: "/serie/jogodamorte.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 6.5,
-      NotaMika: 8,
-      synopsis:
-        "Após tirar a própria vida, um homem é condenado a viver várias mortes em corpos diferentes, refletindo sobre culpa e redenção.",
-    },
-    {
-      title: "Cães de caça",
-      type: "serie",
-      Temporada: "1",
-      Image: "/serie/caesdecaca.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 6,
-      NotaMika: 8,
-      synopsis:
-        "Dois jovens lutadores enfrentam agiotas violentos no submundo do crime, unidos por lealdade e justiça.",
-    },
-    {
-      title: "A noiva-cadáver",
-      type: "filme",
-      Image: "/filme/noivacadaver.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 7,
-      NotaMika: 10,
-      synopsis:
-        "Victor se vê dividido entre o mundo dos vivos e dos mortos após se casar acidentalmente com uma noiva do além.",
-    },
-    {
-      title: "Premonição 1",
-      type: "filme",
-      Image: "/filme/premonicao1.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 8,
-      NotaMika: 7,
-      synopsis:
-        "Um grupo de jovens escapa da morte após uma premonição, mas passa a ser perseguido por um destino inevitável.",
-    },
-    {
-      title: "Premonição 3",
-      type: "filme",
-      Image: "/filme/premonicao3.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 8.5,
-      NotaMika: 8.5,
-      synopsis:
-        "Uma adolescente tenta enganar a morte após prever um acidente, mas eventos trágicos seguem um padrão mortal.",
-    },
-    {
-      title: "Premonição 6",
-      type: "filme",
-      Image: "/filme/premonicao6.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 8,
-      NotaMika: 8,
-      synopsis:
-        "Uma nova história mostra que interferir no destino pode ter consequências fatais que atravessam gerações.",
-    },
-    {
-      title: "Paranorman",
-      type: "filme",
-      Image: "/filme/paranorman.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 6,
-      NotaMika: 9,
-      synopsis:
-        "Norman, um garoto que fala com os mortos, precisa salvar sua cidade enfrentando fantasmas e preconceitos.",
-    },
-    {
-      title: "Inatividade Paranormal",
-      type: "filme",
-      Image: "/filme/inatividade1.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 9.5,
-      NotaMika: 9,
-      synopsis:
-        "Uma paródia de terror que acompanha um casal vivendo eventos sobrenaturais absurdos em sua casa, misturando sustos com humor escrachado.",
-    },
-    {
-      title: "Inatividade Paranormal 2",
-      type: "filme",
-      Image: "/filme/inatividade2.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 9,
-      NotaMika: 9,
-      synopsis:
-        "Continuação da paródia que exagera ainda mais os clichês de filmes de terror, com novas situações bizarras e humor irreverente.",
-    },
-    {
-      title: "Sword Art Online",
-      type: "anime",
-      Image: "/anime/swordartonline.jpg",
-      Temporada: "1",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 9,
-      NotaMika: 8.5,
-      synopsis:
-        "Jogadores ficam presos em um jogo de realidade virtual onde morrer no game significa morrer na vida real, e precisam lutar para escapar.",
-    },
-    {
-      title: "To Be Hero",
-      type: "anime",
-      Image: "/anime/tobehero.jpg",
-      Temporada: "1",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 9.5,
-      NotaMika: 8.75,
-      synopsis:
-        "Um designer fracassado se torna um herói improvável após um evento bizarro, enfrentando monstros enquanto lida com situações absurdas e emocionais.",
-    },
-    {
-      title: "Erased",
-      type: "anime",
-      Image: "/anime/erased.jpg",
-      Temporada: "1",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 10,
-      NotaMika: 8.75,
-      synopsis:
-        "Um homem volta no tempo para sua infância com o objetivo de impedir crimes trágicos e salvar pessoas importantes de seu passado.",
-    },
-    {
-      title: "Uma Fazenda Maluca",
-      type: "filme",
-      Image: "/filme/umafazendamaluca.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 1,
-      NotaMika: 7,
-      synopsis:
-        "Série infantil animada que acompanha animais de uma fazenda vivendo situações caóticas e cômicas no dia a dia.",
-    },
-    {
-      title: "[Rec] 1",
-      type: "filme",
-      Image: "/filme/rec1.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 8.9,
-      NotaMika: 7,
-      synopsis:
-        "Uma repórter e seu cinegrafista ficam presos em um prédio durante uma quarentena causada por uma infecção aterrorizante.",
-    },
-    {
-      title: "Dandadan",
-      type: "anime",
-      Image: "/anime/dandadan.jpg",
-      Temporada: "1",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 7.9,
-      NotaMika: 9,
-      synopsis:
-        "Dois adolescentes se envolvem em batalhas caóticas contra espíritos e alienígenas, misturando ação, humor e romance sobrenatural.",
-    },
-    {
-      title: "O Cemitério das Almas Perdidas",
-      type: "filme",
-      Image: "/filme/cemiterioalmasperdidas.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 6.9,
-      NotaMika: 5,
-      synopsis:
-        "Um grupo enfrenta forças malignas ligadas a um antigo cemitério, despertando espíritos e horrores enterrados no passado.",
-    },
-    {
-      title: "Invocação do Mal 4",
-      type: "filme",
-      Image: "/filme/invocacaodomal4.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 6,
-      NotaMika: 7.5,
-      synopsis:
-        "Os investigadores paranormais Ed e Lorraine Warren enfrentam um novo caso demoníaco que desafia sua fé e limites.",
-    },
-    {
-      title: "Jackass 4.5",
-      type: "filme",
-      Image: "/filme/jackass4.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 8,
-      NotaMika: 7,
-      synopsis:
-        "Jackass Forever é uma compilação de acrobacias, esquetes e pegadinhas intercaladas com entrevistas com o elenco no set de filmagem.",
-    },
-    {
-      title: "Ranking of Kings",
-      type: "anime",
-      Image: "/anime/rankingofkings.jpg",
-      Temporada: "1",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 7.5,
-      NotaMika: 8,
-      synopsis:
-        "Conheça Bojji, um príncipe surdo e impotente que nem sequer pode empunhar a espada de uma criança. Como filho primogênito, ele esforça-se e sonha em tornar-se o maior rei do mundo.",
-    },
-    {
-      title: "Hai to Gensou no Grimgar",
-      type: "anime",
-      Image: "/anime/grimgar.jpg",
-      Temporada: "1",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 8.5,
-      NotaMika: 7.5,
-      synopsis:
-        ' é um anime de fantasia e sobrevivência onde um grupo de jovens acorda em um mundo estilo RPG sem memórias do passado. Para sobreviver, eles precisam se tornar "soldados voluntários", caçando monstros e lidando com a dura realidade da luta, fome e perda em um ambiente hostil. O anime explora temas de amizade, crescimento pessoal e adaptação a um novo mundo desconhecido.     ',
-    },
-    {
-      title: "Oshi no Ko",
-      type: "anime",
-      Image: "/anime/oshinoko.jpg",
-      Temporada: "1",
-      NotaGugu: 9.5,
-      NotaMika: 9,
-      synopsis:
-        " Um médico e sua paciente recém-falecido renascem como gêmeos de uma famosa estrela da música japonesa e vivenciam os altos e baixos da indústria do entretenimento japonesa enquanto crescem juntos ao longo de suas vidas.",
-    },
-    {
-      title: "Chainsaw Man: O Filme - Arco da Reze",
-      type: "filme",
-      Image: "/filme/chainsawmanfilme.jpg",
-      checked: true,
-      Badge: "verificado",
-      NotaGugu: 9.5,
-      NotaMika: 9,
-      synopsis:
-        " Denji, um jovem caçador de demônios traído pela yakuza, sobrevive ao se fundir com seu cão demoníaco Pochita, tornando-se o Chainsaw Man. Em meio a batalhas brutais, a chegada da misteriosa Reze o leva ao seu confronto mais mortal.",
-    },
-  ];
+  const [temporada, setTemporada] = useState<string>("temporadas");
 
   const listaOrdenadaGeral = [...lista].sort((a, b) => {
     const notaA = ((a.NotaGugu || 0) + (a.NotaMika || 0)) / 2;
@@ -460,15 +113,156 @@ export default function Ranking() {
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="todos">Todos</SelectItem>
+                  <SelectItem value="todos">
+                    <span className=" font-bold">Todos</span>
+                  </SelectItem>
                   <SelectItem value="anime">Anime</SelectItem>
                   <SelectItem value="filme">Filme</SelectItem>
                   <SelectItem value="serie">Série</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+            <div className="space-y-4">
+              {conteudosFiltrados.map((item) => {
+                const rankingFinal =
+                  item.NotaGugu && item.NotaMika
+                    ? (item.NotaGugu + item.NotaMika) / 2
+                    : null;
 
-            <ul className="gap-4 flex flex-col">
+                const rankingGeral = getRankingGeral(item);
+                const rankingCategoria = getRankingCategoria(item);
+
+                return (
+                  <div
+                    key={item.id}
+                    className="bg-[#12121a] rounded-xl p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
+                  >
+                    <div className="grid grid-cols-[200px_1fr_130px] grid-rows-1 justify-center items-center gap-4">
+                      {/* Icon */}
+                      <div className="w-full  h-45 relative rounded-lg overflow-hidden">
+                        <Image
+                          src={item.Image ?? "/default-image.jpg"}
+                          alt={item.title}
+                          fill
+                        />{" "}
+                      </div>
+
+                      <div className="  w-full">
+                        <div className="flex flex-row gap-5">
+                          <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
+                            {item.title}
+                          </h3>
+                          <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-md text-sm font-bold">
+                            #{rankingGeral} Geral
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
+                          <Building2 className="w-4 h-4 text-fuchsia-400" />
+                          <span> {item.type}</span>
+                          <span className="text-cyan-500">•</span>
+                          <MapPin className="w-4 h-4 text-cyan-400" />
+                          <span className="text-gray-50">
+                            Idade recomendada: {item.Idade}+
+                          </span>
+                        </div>
+
+                        {/* Details Grid */}
+                        <div className="flex gap-6 mt-4 text-sm w-full">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-cyan-400" />
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                Start Date
+                              </p>
+                              <p className="text-white">{item.startDate}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-fuchsia-400" />
+                            <div>
+                              <p className="text-gray-500 text-xs">Episodios</p>
+                              <p className="text-white">{item.duration}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-fuchsia-400" />
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                Temporadas
+                              </p>
+                              <p className="text-white">{item.duration}</p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 w-full">
+                            <Calendar className="w-4 h-4 text-fuchsia-400" />
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                Last Date To Apply
+                              </p>
+                              <p className="text-white">{item.lastDate}</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Tags */}
+                        <div className="flex gap-2 mt-4">
+                          {item.genero
+                            ? item.genero.map((tag, index) => (
+                                <span
+                                  key={index}
+                                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                    tag.includes("Pre Placement")
+                                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
+                                      : "bg-fuchsia-500/20 text-fuchsia-400 border border-fuchsia-500/30"
+                                  }`}
+                                >
+                                  {tag.trim()}
+                                </span>
+                              ))
+                            : null}
+                        </div>
+                        <p className=" text-gray-300 text-sm flex flex-row gap-3 pt-5 flex-wrap">
+                          Nota: {rankingFinal?.toFixed(1)}
+                          <Star width={14} />=
+                          <span className="text-purple-700 mx-5  flex flex-row gap-3">
+                            Mika: {item.NotaMika} <Star width={14} />
+                            <span className="font-bold mx-5">+</span>
+                          </span>
+                          <span className=" text-cyan-600 flex flex-row gap-3">
+                            Gugu: {item.NotaGugu}
+                            <Star width={14} />
+                          </span>
+                        </p>
+                      </div>
+                      <div className="text-right flex flex-col  h-full justify-between  ">
+                        <div></div>
+                        <div>
+                          <p className="text-xs text-gray-500 mb-4">
+                            Posted {item.postedDays} Days Ago
+                          </p>
+                          <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow">
+                            View Details →
+                          </Button>
+                        </div>
+
+                        <div className="flex justify-end gap-5">
+                          <Button className="bg-indigo-100 w-7 h-7 rounded-4xl hover:bg-amber-200  text-black mt-4">
+                            <Star />
+                          </Button>
+                          <Button className="bg-indigo-100 w-7 h-7 rounded-4xl hover:bg-indigo-300  text-black mt-4">
+                            <MessageSquare />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* <ul className="gap-4 flex flex-col">
               {conteudosFiltrados.map((item) => {
                 const rankingFinal =
                   item.NotaGugu && item.NotaMika
@@ -480,9 +274,27 @@ export default function Ranking() {
 
                 return (
                   <li
-                    className="border-b m-5 bg-gray-900 rounded-2xl p-3  "
+                    className=" border-b m-5 bg-gray-900 rounded-2xl p-3  "
                     key={item.title}
                   >
+                    <div className=" flex items-center justify-end mb-2 ">
+                      <Select
+                        value={temporada}
+                        onValueChange={(value) =>
+                          setfilter(value as TipoConteudo)
+                        }
+                      >
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Temporadas" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="temporadas">
+                            <span className="px-6 font-bold">Temporadas</span>
+                          </SelectItem>
+                          <SelectItem value="temporada">1 Temporada</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                     <div className="justify-center items-center gap-5 px-2 grid grid-cols-[1fr_4fr]">
                       <div className="w-full h-64 relative rounded-lg overflow-hidden">
                         <Image
@@ -531,12 +343,13 @@ export default function Ranking() {
                             <Star />
                           </span>
                         </p>
+                        
                       </div>
                     </div>
                   </li>
                 );
               })}
-            </ul>
+            </ul> */}
           </li>
         </div>
       </div>
