@@ -13,16 +13,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { rankingLista } from "@/lib/ranking-list";
+import Image from "next/image";
 
 const internships = rankingLista.map((item, index) => ({
   id: index + 1,
   title: item.title,
   type: item.type,
+  Image: item.Image ?? null,
+  temporada: item.Temporada,
   startDate: item.startDate,
-  duration: item.duration,
+  duration: item.duration ?? null, // só filmes
+  episodes: item.episodes ?? null, // anime e série
   genero: item.generos ?? [],
   lastDate: item.lastDate,
-  tags: item.tags,
   Idade: item.Idade ?? "0",
   postedDays: item.postedDays,
 }));
@@ -199,9 +202,13 @@ export default function SearchPag() {
                   <div className="flex items-start justify-between">
                     <div className="flex gap-4">
                       {/* Icon */}
-                      <div className="w-12 h-12 rounded-lg bg-linear-to-br from-cyan-500/20 to-fuchsia-500/20 flex items-center justify-center border border-cyan-500/30 group-hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-shadow">
-                        <Briefcase className="w-6 h-6 text-cyan-400" />
-                      </div>
+                      <div className="w-full h-28 relative rounded-lg overflow-hidden">
+                                              <Image
+                                                src={internship.Image ?? "/default-image.jpg"}
+                                                alt={internship.title}
+                                                fill
+                                              />{" "}
+                                            </div>
 
                       <div>
                         <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
@@ -213,7 +220,7 @@ export default function SearchPag() {
                           <span className="text-cyan-500">•</span>
                           <MapPin className="w-4 h-4 text-cyan-400" />
                           <span className="text-gray-50">
-                            Idade recomendada: {internship.Idade}+
+                            classificação: {internship.Idade}+
                           </span>
                         </div>
 
@@ -233,10 +240,20 @@ export default function SearchPag() {
                           <div className="flex items-center gap-2">
                             <Clock className="w-4 h-4 text-fuchsia-400" />
                             <div>
-                              <p className="text-gray-500 text-xs">Episodios</p>
-                              <p className="text-white">
-                                {internship.duration}
+                              <div className="flex items-center gap-2">
+                          
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                {internship.type === "filme" ? "Duração" : "Episódios"}
                               </p>
+                              <p className="text-white">
+                                {internship.type === "filme"
+                                  ? internship.duration
+                                  : internship.episodes}
+                              </p>
+                            </div>
+                          </div>
+
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
@@ -246,7 +263,7 @@ export default function SearchPag() {
                                 Temporadas
                               </p>
                               <p className="text-white">
-                                {internship.duration}
+                                {internship.temporada}
                               </p>
                             </div>
                           </div>

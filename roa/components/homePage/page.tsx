@@ -13,24 +13,24 @@ export default function HomePage() {
           <div className="inline-flex items-center space-x-2 mb-6 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full">
             <Sparkles className="text-cyan-400" size={20} />
             <span className="text-cyan-400 text-sm font-medium">
-              O Futuro dos Reviews
+              As melhores reviews ou não
             </span>
           </div>
 
           <h1 className="text-5xl sm:text-7xl font-bold mb-6">
             <span className="bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              CyberReview
+              Mikawithk
             </span>
           </h1>
 
           <p className="text-xl sm:text-2xl text-gray-300 mb-4 max-w-3xl mx-auto">
-            Bem-vindo ao CyberReview — onde animes e filmes ganham vida em luz
+            Bem-vindo ao Mikawithk — onde animes e filmes ganham vida em luz
             neon
           </p>
 
           <p className="text-cyan-400 text-lg mb-8">
-            Avaliações Neon • Rankings Futuristas • Cultura Otaku & Cinema
-            Sci-Fi
+            Reviews • Rankings • Cultura Otaku & Cinema
+            
           </p>
 
           <div className="flex justify-center">
