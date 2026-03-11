@@ -1,14 +1,11 @@
 "use client";
+
 import Link from "next/link";
 import { Search, Trophy, Home } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const page =
-    typeof window !== "undefined"
-      ? window.location.pathname.replace("/", "")
-      : "/";
-
-  const currentPage = page === "" ? "/" : page;
+  const pathname = usePathname();
 
   const navItems = [
     { id: "/", label: "Home", icon: Home },
@@ -21,22 +18,23 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <button
-              //   onClick={() => onNavigate('home')}
+            <Link
+              href="/"
               className="text-2xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-cyan-300 hover:via-purple-300 hover:to-pink-300 transition-all"
             >
-              <Link href="/">CyberReview</Link>
-            </button>
+              CyberReview
+            </Link>
           </div>
 
-          <div className="flex space-x-1  ">
+          <div className="flex space-x-1">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = currentPage === item.id;
+              const isActive = pathname === item.id;
 
               return (
-                <button
+                <Link
                   key={item.id}
+                  href={item.id}
                   className={`
                     flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all
                     ${
@@ -47,10 +45,8 @@ export default function Navbar() {
                   `}
                 >
                   <Icon size={18} />
-                  <a href={item.id} className="hidden sm:inline">
-                    {item.label}
-                  </a>
-                </button>
+                  <span className="hidden sm:inline">{item.label}</span>
+                </Link>
               );
             })}
           </div>
