@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Search, Trophy, Home } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-export default function Navbar() {
+export default function NavbarClient({ user }: { user: any }) {
   const pathname = usePathname();
 
   const navItems = [
@@ -14,7 +14,10 @@ export default function Navbar() {
   ];
 
   return (
+    
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-cyan-500/30">
+            {user ? (
+        
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -52,6 +55,9 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+       ) : (
+        <a href="/api/auth/login">Login</a>
+      )}
     </nav>
   );
 }
