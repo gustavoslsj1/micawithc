@@ -16,7 +16,7 @@ export default function NavbarClient({ user }: { user: any }) {
   return (
     
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-cyan-500/30">
-            {user ? (
+        
         
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -52,12 +52,13 @@ export default function NavbarClient({ user }: { user: any }) {
                 </Link>
               );
             })}
+              
           </div>
+          <a  className="ring-1 font-bold ring-red-500 rounded-xl px-5 bg-red-500/10 hover:bg-red-500/20 py-2 hover:ring-red-400" href="/auth/logout">Logout</a>
         </div>
       </div>
-       ) : (
-        <a href="/api/auth/login">Login</a>
-      )}
+      
+  
     </nav>
   );
 }
