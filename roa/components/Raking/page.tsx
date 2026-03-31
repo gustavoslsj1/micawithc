@@ -1,6 +1,3 @@
-"use client";
-import { useState } from "react";
-
 import {
   Trophy,
   BadgeCheckIcon,
@@ -23,6 +20,10 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "../ui/button";
 import { rankingLista } from "@/lib/ranking-list";
+import { auth0 } from "@/lib/auth0";
+import { favoriteAction } from "@/actions/favorites";
+import FavoriteButton from "../FavoriteButton";
+import { createClient } from "@/lib/supabase/server";
 
 type TipoConteudo = "todos" | "anime" | "filme" | "serie";
 
@@ -41,10 +42,22 @@ const lista = rankingLista.map((item, index) => ({
   postedDays: item.postedDays,
 }));
 
-export default function Ranking() {
-  const [filter, setfilter] = useState<TipoConteudo>("todos");
-  const [temporada, setTemporada] = useState<string>("temporadas");
+export default async function Ranking() {
+  const supabase = await createClient();
 
+  const session = await auth0.getSession();
+  const userId = session?.user.sub;
+
+  const { data: content, error } = await supabase.from("content").select();
+
+  const { data: favoritos } = await supabase
+    .from("favoritos")
+    .select("content_id")
+    .eq("user_id", userId);
+  const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
+
+  // const [filter, setfilter] = useState<TipoConteudo>("todos");
+  const filter: TipoConteudo = "todos";
   const listaOrdenadaGeral = [...lista].sort((a, b) => {
     const notaA = ((a.NotaGugu || 0) + (a.NotaMika || 0)) / 2;
     const notaB = ((b.NotaGugu || 0) + (b.NotaMika || 0)) / 2;
@@ -107,7 +120,7 @@ export default function Ranking() {
             <div className="flex flex-row gap-4 justify-end my-4">
               <Select
                 value={filter}
-                onValueChange={(value) => setfilter(value as TipoConteudo)}
+                // onValueChange={(value) => setfilter(value as TipoConteudo)}
               >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Tipo" />
@@ -123,7 +136,7 @@ export default function Ranking() {
               </Select>
             </div>
             <div className="space-y-4">
-              {conteudosFiltrados.map((item) => {
+              {content?.map((item) => {
                 const rankingFinal =
                   item.NotaGugu && item.NotaMika
                     ? (item.NotaGugu + item.NotaMika) / 2
@@ -207,7 +220,7 @@ export default function Ranking() {
                         </div>
 
                         {/* Tags */}
-                        <div className="flex gap-2 mt-4">
+                        {/* <div className="flex gap-2 mt-4">
                           {item.genero
                             ? item.genero.map((tag, index) => (
                                 <span
@@ -222,7 +235,8 @@ export default function Ranking() {
                                 </span>
                               ))
                             : null}
-                        </div>
+                        </div> */}
+
                         <p className=" text-gray-300 text-sm flex flex-row gap-3 pt-5 flex-wrap">
                           Nota: {rankingFinal?.toFixed(1)}
                           <Star width={14} />=
@@ -248,9 +262,10 @@ export default function Ranking() {
                         </div>
 
                         <div className="flex justify-end gap-5">
-                          <Button className="bg-indigo-100 w-7 h-7 rounded-4xl hover:bg-amber-200  text-black mt-4">
-                            <Star />
-                          </Button>
+                          <FavoriteButton
+                            contentId={item.id}
+                            isFavorited={favoritosIds.has(item.id)}
+                          />
                           <Button className="bg-indigo-100 w-7 h-7 rounded-4xl hover:bg-indigo-300  text-black mt-4">
                             <MessageSquare />
                           </Button>
@@ -261,95 +276,6 @@ export default function Ranking() {
                 );
               })}
             </div>
-
-            {/* <ul className="gap-4 flex flex-col">
-              {conteudosFiltrados.map((item) => {
-                const rankingFinal =
-                  item.NotaGugu && item.NotaMika
-                    ? (item.NotaGugu + item.NotaMika) / 2
-                    : null;
-
-                const rankingGeral = getRankingGeral(item);
-                const rankingCategoria = getRankingCategoria(item);
-
-                return (
-                  <li
-                    className=" border-b m-5 bg-gray-900 rounded-2xl p-3  "
-                    key={item.title}
-                  >
-                    <div className=" flex items-center justify-end mb-2 ">
-                      <Select
-                        value={temporada}
-                        onValueChange={(value) =>
-                          setfilter(value as TipoConteudo)
-                        }
-                      >
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Temporadas" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="temporadas">
-                            <span className="px-6 font-bold">Temporadas</span>
-                          </SelectItem>
-                          <SelectItem value="temporada">1 Temporada</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="justify-center items-center gap-5 px-2 grid grid-cols-[1fr_4fr]">
-                      <div className="w-full h-64 relative rounded-lg overflow-hidden">
-                        <Image
-                          src={item.Image ?? "/default-image.jpg"}
-                          alt={item.title}
-                          fill
-                        />{" "}
-                      </div>
-                      <div>
-                        <div className="flex flex-row items-center gap-3 flex-wrap mb-2 ">
-                          <h1 className="font-bold text-3xl">{item.title}</h1>
-                          <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-md text-sm font-bold">
-                            #{rankingGeral} Geral
-                          </span>
-                          <span className="px-2 py-1 bg-purple-500/20 text-purple-400 rounded-md text-sm font-bold">
-                            #{rankingCategoria} em{" "}
-                            {getCategoriaLabel(item.type)}
-                          </span>
-                        </div>
-                        {item.checked && (
-                          <Badge>
-                            <BadgeCheckIcon className="w-4 h-4" />
-                            {item.Badge}
-                          </Badge>
-                        )}
-                        <h2 className="text-[#C47BE4]">
-                          <span className="text-gray-300  text-xl">
-                            {" "}
-                            synopsis:
-                          </span>{" "}
-                          {item.synopsis}
-                        </h2>
-                        <h3 className=" text-gray-300 text-xl">
-                          Temporada: {item.Temporada}
-                        </h3>
-
-                        <p className=" text-gray-300 text-xl flex flex-row gap-3 flex-wrap">
-                          Nota: {rankingFinal?.toFixed(1)}
-                          <Star />=
-                          <span className="text-purple-700 mx-5  flex flex-row gap-3">
-                            Mika: {item.NotaMika} <Star />
-                            <span className="font-bold mx-5">+</span>
-                          </span>
-                          <span className=" text-cyan-600 flex flex-row gap-3">
-                            Gugu: {item.NotaGugu}
-                            <Star />
-                          </span>
-                        </p>
-                        
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul> */}
           </li>
         </div>
       </div>

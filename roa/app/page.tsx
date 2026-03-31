@@ -1,3 +1,4 @@
+"use client";
 import HomePage from "@/components/homePage/page";
 import Ranking from "@/components/Raking/page";
 
