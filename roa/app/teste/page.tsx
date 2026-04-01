@@ -1,4 +1,4 @@
-import Instruments from "@/components/teste/page";
+import Instruments from "@/components/teste";
 
 export default function Test() {
   return <Instruments />;

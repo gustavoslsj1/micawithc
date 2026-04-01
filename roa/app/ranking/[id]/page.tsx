@@ -1,4 +1,4 @@
-import AnimeDetails from "@/components/Raking/AnimeDetails.tsx/page";
+import AnimeDetails from "@/components/AnimeDetails";
 
 export default async function Page({
   params,

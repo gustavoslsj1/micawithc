@@ -1,4 +1,4 @@
-import SearchPag from "@/components/Search/page";
+import SearchPag from "@/components/Search";
 
 export default function Search() {
   return <SearchPag />;

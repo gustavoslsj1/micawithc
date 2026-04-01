@@ -1,6 +1,6 @@
 "use client";
-import HomePage from "@/components/homePage/page";
-import Ranking from "@/components/Raking/page";
+import HomePage from "@/components/homePage";
+import Ranking from "@/components/Raking";
 
 export default function Home() {
   return (

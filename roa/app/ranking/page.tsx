@@ -1,4 +1,4 @@
-import Raking from "@/components/Raking/page";
+import Raking from "@/components/Raking";
 
 export default function Ranking() {
   return <Raking />;
