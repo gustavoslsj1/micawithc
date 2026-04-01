@@ -364,7 +364,6 @@ export const rankingLista = [
   },
 
   {
-    id: 1,
     title: "Sword Art Online",
     type: "anime",
     Temporada: "4",
@@ -383,7 +382,6 @@ export const rankingLista = [
       "Jogadores ficam presos em um jogo de realidade virtual onde morrer no game significa morrer na vida real, e precisam lutar para escapar.",
   },
   {
-    id: 2,
     title: "To Be Hero",
     type: "anime",
     Temporada: "1",

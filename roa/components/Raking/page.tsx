@@ -24,23 +24,7 @@ import { auth0 } from "@/lib/auth0";
 import { favoriteAction } from "@/actions/favorites";
 import FavoriteButton from "../FavoriteButton";
 import { createClient } from "@/lib/supabase/server";
-
-type TipoConteudo = "todos" | "anime" | "filme" | "serie";
-
-const lista = rankingLista.map((item, index) => ({
-  id: index + 1,
-  title: item.title,
-  type: item.type,
-  startDate: item.startDate,
-  duration: item.duration,
-  genero: item.generos ?? [],
-  lastDate: item.lastDate,
-  Image: item.Image,
-  NotaGugu: item.NotaGugu,
-  NotaMika: item.NotaMika,
-  Idade: item.Idade ?? "0",
-  postedDays: item.postedDays,
-}));
+import Link from "next/link";
 
 export default async function Ranking() {
   const supabase = await createClient();
@@ -57,37 +41,37 @@ export default async function Ranking() {
   const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
 
   // const [filter, setfilter] = useState<TipoConteudo>("todos");
-  const filter: TipoConteudo = "todos";
-  const listaOrdenadaGeral = [...lista].sort((a, b) => {
-    const notaA = ((a.NotaGugu || 0) + (a.NotaMika || 0)) / 2;
-    const notaB = ((b.NotaGugu || 0) + (b.NotaMika || 0)) / 2;
-    return notaB - notaA;
-  });
+  // const filter: TipoConteudo = "todos";
+  // const listaOrdenadaGeral = [...lista].sort((a, b) => {
+  //   const notaA = ((a.NotaGugu || 0) + (a.NotaMika || 0)) / 2;
+  //   const notaB = ((b.NotaGugu || 0) + (b.NotaMika || 0)) / 2;
+  //   return notaB - notaA;
+  // });
 
-  const getRankingCategoria = (item: (typeof lista)[0]) => {
-    const mesmaCategoria = listaOrdenadaGeral.filter(
-      (i) => i.type === item.type,
-    );
-    return mesmaCategoria.findIndex((i) => i.title === item.title) + 1;
-  };
+  // const getRankingCategoria = (item: (typeof lista)[0]) => {
+  //   const mesmaCategoria = listaOrdenadaGeral.filter(
+  //     (i) => i.type === item.type,
+  //   );
+  //   return mesmaCategoria.findIndex((i) => i.title === item.title) + 1;
+  // };
 
-  const getRankingGeral = (item: (typeof lista)[0]) => {
-    return listaOrdenadaGeral.findIndex((i) => i.title === item.title) + 1;
-  };
+  // const getRankingGeral = (item: (typeof lista)[0]) => {
+  //   return listaOrdenadaGeral.findIndex((i) => i.title === item.title) + 1;
+  // };
 
-  const conteudosFiltrados =
-    filter === "todos"
-      ? listaOrdenadaGeral
-      : listaOrdenadaGeral.filter((item) => item.type === filter);
+  // const conteudosFiltrados =
+  //   filter === "todos"
+  //     ? listaOrdenadaGeral
+  //     : listaOrdenadaGeral.filter((item) => item.type === filter);
 
-  const getCategoriaLabel = (type: string) => {
-    const labels: Record<string, string> = {
-      anime: "Animes",
-      filme: "Filmes",
-      serie: "Séries",
-    };
-    return labels[type] || type;
-  };
+  // const getCategoriaLabel = (type: string) => {
+  //   const labels: Record<string, string> = {
+  //     anime: "Animes",
+  //     filme: "Filmes",
+  //     serie: "Séries",
+  //   };
+  //   return labels[type] || type;
+  // };
 
   return (
     <div className="min-h-screen pt-24 pb-16">
@@ -119,8 +103,8 @@ export default async function Ranking() {
 
             <div className="flex flex-row gap-4 justify-end my-4">
               <Select
-                value={filter}
-                // onValueChange={(value) => setfilter(value as TipoConteudo)}
+              // value={filter}
+              // onValueChange={(value) => setfilter(value as TipoConteudo)}
               >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Tipo" />
@@ -142,8 +126,8 @@ export default async function Ranking() {
                     ? (item.NotaGugu + item.NotaMika) / 2
                     : null;
 
-                const rankingGeral = getRankingGeral(item);
-                const rankingCategoria = getRankingCategoria(item);
+                // const rankingGeral = getRankingGeral(item);
+                // const rankingCategoria = getRankingCategoria(item);
 
                 return (
                   <div
@@ -154,7 +138,7 @@ export default async function Ranking() {
                       {/* Icon */}
                       <div className="w-full  h-45 relative rounded-lg overflow-hidden">
                         <Image
-                          src={item.Image ?? "/default-image.jpg"}
+                          src={item.image ?? "/default-image.jpg"}
                           alt={item.title}
                           fill
                         />{" "}
@@ -163,10 +147,10 @@ export default async function Ranking() {
                       <div className="  w-full">
                         <div className="flex flex-row gap-5">
                           <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                            {item.title}
+                            {item.name}
                           </h3>
                           <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-md text-sm font-bold">
-                            #{rankingGeral} Geral
+                            #Geral
                           </span>
                         </div>
 
@@ -176,7 +160,7 @@ export default async function Ranking() {
                           <span className="text-cyan-500">•</span>
                           <MapPin className="w-4 h-4 text-cyan-400" />
                           <span className="text-gray-50">
-                            Idade recomendada: {item.Idade}+
+                            Idade recomendada: {item.idade}+
                           </span>
                         </div>
 
@@ -188,7 +172,7 @@ export default async function Ranking() {
                               <p className="text-gray-500 text-xs">
                                 Start Date
                               </p>
-                              <p className="text-white">{item.startDate}</p>
+                              <p className="text-white">{item.year}</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
@@ -204,7 +188,7 @@ export default async function Ranking() {
                               <p className="text-gray-500 text-xs">
                                 Temporadas
                               </p>
-                              <p className="text-white">{item.duration}</p>
+                              <p className="text-white">{item.temporadas}</p>
                             </div>
                           </div>
 
@@ -220,22 +204,22 @@ export default async function Ranking() {
                         </div>
 
                         {/* Tags */}
-                        {/* <div className="flex gap-2 mt-4">
-                          {item.genero
-                            ? item.genero.map((tag, index) => (
-                                <span
-                                  key={index}
-                                  className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                    tag.includes("Pre Placement")
-                                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
-                                      : "bg-fuchsia-500/20 text-fuchsia-400 border border-fuchsia-500/30"
-                                  }`}
-                                >
-                                  {tag.trim()}
-                                </span>
-                              ))
-                            : null}
-                        </div> */}
+                        <div className="flex gap-2 mt-4">
+                          {item.generos
+                            ?.split("|")
+                            .map((tag: string, index: number) => (
+                              <span
+                                key={index}
+                                className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                  tag.includes("Pre Placement")
+                                    ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
+                                    : "bg-fuchsia-500/20 text-fuchsia-400 border border-fuchsia-500/30"
+                                }`}
+                              >
+                                {tag.trim()}
+                              </span>
+                            ))}
+                        </div>
 
                         <p className=" text-gray-300 text-sm flex flex-row gap-3 pt-5 flex-wrap">
                           Nota: {rankingFinal?.toFixed(1)}
@@ -257,7 +241,9 @@ export default async function Ranking() {
                             Posted {item.postedDays} Days Ago
                           </p>
                           <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow">
-                            View Details →
+                            <Link href={`/ranking/${item.id}`}>
+                              View Details →
+                            </Link>
                           </Button>
                         </div>
 
