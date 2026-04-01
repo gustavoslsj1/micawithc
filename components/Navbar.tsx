@@ -18,7 +18,7 @@ export default async function Navbar() {
         {/* Redirects to Auth0 to log in */}
         <a
           className="ring-1 ring-cyan-500 rounded-xl px-5 bg-cyan-500/10 py-2 hover:ring-cyan-400"
-          href="/auth/login"
+          href="/api/auth/login"
         >
           Login
         </a>
