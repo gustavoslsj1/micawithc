@@ -18,7 +18,7 @@ import Link from "next/link";
 
 const internships = rankingLista.map((item, index) => ({
   ids: index + 1,
-  id: item.id,
+
   title: item.title,
   type: item.type,
   Image: item.Image ?? null,
@@ -295,9 +295,7 @@ export default function SearchPag() {
                         Posted {internship.postedDays} Days Ago
                       </p>
                       <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow">
-                        <Link href={`/ranking/${internship.id}`}>
-                          View Details
-                        </Link>
+                        <Link href={`/ranking/`}>View Details</Link>
                       </Button>
                     </div>
                   </div>
