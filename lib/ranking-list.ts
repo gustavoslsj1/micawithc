@@ -342,7 +342,7 @@ export const rankingLista = [
     NotaGugu: 9.5,
     NotaMika: 9,
     synopsis:
-      "Uma paródia de terror que acompanha um casal vivendo eventos sobrenaturais absurdos em sua casa, misturando sustos com humor escrachado.",
+      "Uma paródia de rror que acompanha um casal vivendo eventos sobrenaturais absurdos em sua casa, misturando sustos com humor escrachado.",
   },
 
   {

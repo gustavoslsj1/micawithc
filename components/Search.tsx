@@ -16,9 +16,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import Image from "next/image";
 import Link from "next/link";
-import { GetContents } from "@/lib/services/content";
-
-export default function SearchPag({ content }: { content: any[] }) {
+type content = {
+  id: string;
+  name: string;
+  generos?: string;
+  year?: number;
+  image: string;
+  type: string;
+  idade: number;
+  temporada: number;
+  duration: number;
+  synopsis: string;
+  episodio: number;
+};
+export default function SearchPag({ content }: { content: content[] }) {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState("");
   const [searchAge, setSearchAge] = useState("");
@@ -258,7 +269,7 @@ export default function SearchPag({ content }: { content: any[] }) {
                             <p className="text-gray-500 text-xs">
                               Last Date To Apply
                             </p>
-                            <p className="text-white">{internship.lastDate}</p>
+                            <p className="text-white">{internship.year}</p>
                           </div>
                         </div>
                       </div>

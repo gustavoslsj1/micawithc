@@ -7,7 +7,13 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
-export default function NavbarClient({ user }: { user: any }) {
+type Props = {
+  user?: {
+    picture?: string;
+    name?: string;
+  };
+};
+export default function NavbarClient({ user }: Props) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
