@@ -28,7 +28,7 @@ export default function NavbarClient({ user }: { user: any }) {
           href="/"
           className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-cyan-300 hover:via-purple-300 hover:to-pink-300 transition-all"
         >
-          CyberReview
+          DC
         </Link>
 
         {/* Desktop Navigation */}

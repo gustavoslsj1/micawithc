@@ -19,13 +19,12 @@ export default function HomePage() {
 
           <h1 className="text-5xl sm:text-7xl font-bold mb-6">
             <span className="bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              rd
+              DEPOIS DOS CREDITOS
             </span>
           </h1>
 
           <p className="text-xl sm:text-2xl text-gray-300 mb-4 max-w-3xl mx-auto">
-            Bem-vindo ao Mikawithk — onde animes e filmes ganham vida em luz
-            neon
+            Bem-vindo ao DC — O melhor sempre depois
           </p>
 
           <p className="text-cyan-400 text-lg mb-8">
