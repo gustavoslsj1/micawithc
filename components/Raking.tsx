@@ -25,14 +25,16 @@ import { favoriteAction } from "@/actions/favorites";
 import FavoriteButton from "./FavoriteButton";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import { GetUserId } from "@/lib/services/auth0";
+import { GetContents } from "@/lib/services/content";
 
 export default async function Ranking() {
   const supabase = await createClient();
 
-  const session = await auth0.getSession();
-  const userId = session?.user.sub;
+  const user = await GetUserId();
+  const userId = user?.userId;
 
-  const { data: content, error } = await supabase.from("content").select();
+  const { data: content } = await GetContents();
 
   const { data: favoritos } = await supabase
     .from("favoritos")
@@ -139,7 +141,7 @@ export default async function Ranking() {
                       <div className="w-full  h-45 relative rounded-lg overflow-hidden">
                         <Image
                           src={item.image ?? "/default-image.jpg"}
-                          alt={item.title}
+                          alt={item.name}
                           fill
                         />{" "}
                       </div>

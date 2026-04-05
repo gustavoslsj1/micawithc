@@ -16,11 +16,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { auth0 } from "@/lib/auth0";
 import { createClient } from "@/lib/supabase/server";
 import Image from "next/image";
-type Props = {
-  slug: string;
-};
 
-export default async function AnimeDetails({ slug }: Props) {
+export default async function AnimeDetails({ id }: { id: string }) {
   // const [newComment, setNewComment] = useState("");
   // const [commentList, setCommentList] = useState(comments);
   const supabase = await createClient();
@@ -28,14 +25,20 @@ export default async function AnimeDetails({ slug }: Props) {
   const session = await auth0.getSession();
   const userId = session?.user.sub;
 
-  const { data: content, error } = await supabase.from("content").select();
+  const { data: anime } = await supabase
+    .from("content")
+    .select()
+    .eq("id", id)
+    .single();
+  console.log("ID:", id);
+  if (!anime) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <p>Anime não encontrado.</p>
+      </div>
+    );
+  }
 
-  const { data: favoritos } = await supabase
-    .from("favoritos")
-    .select("content_id")
-    .eq("user_id", userId);
-
-  const anime = content?.find((item) => item.id === Number(slug));
   // const handleAddComment = () => {
   //   if (newComment.trim()) {
   //     setCommentList([
@@ -52,7 +55,6 @@ export default async function AnimeDetails({ slug }: Props) {
   //     setNewComment("");
   //   }
   // };
-  if (!anime) return "oiiii";
 
   return (
     <main className=" min-h-screen pt-24 pb-16 container mx-auto px-4 py-8">
@@ -66,7 +68,7 @@ export default async function AnimeDetails({ slug }: Props) {
                 priority
                 fill
                 src={anime.image}
-                alt={anime.title}
+                alt={anime.name}
                 className="w-full h-auto "
               />
             </Card>
@@ -78,7 +80,7 @@ export default async function AnimeDetails({ slug }: Props) {
               <CardContent className="p-4 text-center">
                 <Star className="w-6 h-6 mx-auto mb-2 text-primary" />
                 <p className="text-2xl font-bold text-primary neon-text-cyan">
-                  {(anime.NotaGugu + anime.NotaMika) / 2}
+                  {/* {(anime.NotaGugu + anime.NotaMika) / 2} */} notas
                 </p>
                 <p className="text-sm text-muted-foreground">Nota Média</p>
               </CardContent>

@@ -1,45 +1,26 @@
 import { auth0 } from "@/lib/auth0";
+import { GetUserId } from "@/lib/services/auth0";
+import { GetContents } from "@/lib/services/content";
 import { createClient } from "@/lib/supabase/server";
-import { Bookmark, Star } from "lucide-react";
+import { get } from "http";
+import { Bookmark, Calendar, Clock, Star, Tv } from "lucide-react";
+import Link from "next/link";
+import FavoriteButton from "./FavoriteButton";
 
 export default async function SalvosContent() {
   const supabase = await createClient();
+  const user = await GetUserId();
+  const userId = user?.userId;
 
-  const session = await auth0.getSession();
-  const userId = session?.user.sub;
-  const { data: content, error } = await supabase.from("content").select();
-  const { data: dataFavoritos } = await supabase
+  const { data: content } = await GetContents();
+
+  const { data: favoritos } = await supabase
     .from("favoritos")
-    .select()
+    .select("content_id")
     .eq("user_id", userId);
-
-  const favoritosIds = new Set(dataFavoritos?.map((fav) => fav.content_id));
+  const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
   return (
     <div className="min-h-screen bg-black">
-      <nav className="bg-gray-900 border-b border-gray-800 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <h1 className="text-2xl font-bold">
-            <span className="text-cyan-400">Cyber</span>
-            <span className="text-white">Review</span>
-          </h1>
-          <div className="flex items-center gap-6">
-            <button className="text-gray-400 hover:text-white transition-colors">
-              Home
-            </button>
-            <button className="text-gray-400 hover:text-white transition-colors">
-              Ranking
-            </button>
-            <button className="text-gray-400 hover:text-white transition-colors">
-              Search
-            </button>
-            <button className="text-cyan-400 font-semibold flex items-center gap-2">
-              <Star className="w-5 h-5 fill-cyan-400" />
-              Salvos
-            </button>
-          </div>
-        </div>
-      </nav>
-
       <main className="max-w-7xl mx-auto px-6 py-12">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
@@ -52,79 +33,67 @@ export default async function SalvosContent() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {dataFavoritos?.map((item) => (
-            <div key={item.id}>
+          {favoritos?.map((item) => (
+            <div key={item.content_id}>
               {content?.map((contentItem) => {
                 if (contentItem.id === item.content_id) {
                   return (
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg overflow-hidden border border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20 group w-full aspect-square flex flex-col">
-                      <div className="relative h-2/5 overflow-hidden">
-                        {/* <img
-                          src={imageUrl}
-                          alt={title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                        /> */}
-                        <div className="absolute top-2 left-2 bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold">
-                          {/* #{ranking} {category} */}
-                        </div>
-                        <div className="absolute top-2 right-2">
-                          <button className="bg-black/50 hover:bg-cyan-500/80 p-1.5 rounded-full transition-colors">
-                            <Bookmark className="w-4 h-4 text-white fill-white" />
-                          </button>
-                        </div>
+                    <div
+                      key={contentItem.id}
+                      className="relative rounded-lg overflow-hidden border border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20 group w-full aspect-[2/3]"
+                    >
+                      {/* Imagem de fundo */}
+                      <img
+                        src={contentItem.image}
+                        alt={contentItem.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+
+                      {/* Botão de bookmark sempre visível */}
+                      <div className="absolute top-2 right-2 z-10">
+                        <FavoriteButton
+                          contentId={contentItem.id}
+                          isFavorited={favoritosIds.has(contentItem.id)}
+                        />
                       </div>
 
-                      <div className="p-3 flex-1 flex flex-col justify-between">
-                        <div>
-                          <h3 className="text-white font-semibold text-sm mb-2 line-clamp-2 group-hover:text-cyan-400 transition-colors">
-                            {contentItem.name}
-                          </h3>
-                          {/* 
-                          {ageRating && (
-                            <div className="flex items-center gap-1 mb-2">
-                              <span className="text-gray-400 text-xs">
-                                {ageRating}
-                              </span>
-                            </div>
-                          )} */}
-
-                          <div className="grid grid-cols-2 gap-2 mb-2 text-xs">
-                            {/* {startDate && (
-                              <div className="flex items-center gap-1 text-gray-400">
-                                <Calendar className="w-3 h-3" />
-                                <span className="truncate">{startDate}</span>
-                              </div>
-                            )}
-                            {episodes && (
-                              <div className="flex items-center gap-1 text-gray-400">
-                                <Tv className="w-3 h-3" />
-                                <span>{episodes} eps</span>
-                              </div>
-                            )}
-                            {seasons && (
-                              <div className="flex items-center gap-1 text-gray-400">
-                                <Clock className="w-3 h-3" />
-                                <span>{seasons} temp</span>
-                              </div>
-                            )} */}
+                      {/* Overlay com informações - aparece no hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                        <h3 className="text-white font-semibold text-base mb-2 line-clamp-2">
+                          {contentItem.name}
+                        </h3>
+                        {contentItem.idade && (
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-gray-300 text-xs bg-gray-700/50 px-2 py-0.5 rounded">
+                              {contentItem.idade}+
+                            </span>
                           </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-gray-400 text-xs">Nota:</span>
-                            <div className="flex items-center gap-1">
-                              <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                              <span className="text-yellow-500 font-semibold text-sm">
-                                {/* {nota.toFixed(1)} */}
-                              </span>
+                        )}
+                        <div className="flex flex-wrap gap-2 mb-3 text-xs">
+                          {contentItem.year && (
+                            <div className="flex items-center gap-1 text-gray-300">
+                              <Calendar className="w-3 h-3" />
+                              <span>{contentItem.year}</span>
                             </div>
-                          </div>
-
-                          <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-1.5 rounded text-xs font-semibold transition-all">
-                            Ver Detalhes →
-                          </button>
+                          )}
+                          {contentItem.episodio && (
+                            <div className="flex items-center gap-1 text-gray-300">
+                              <Tv className="w-3 h-3" />
+                              <span>{contentItem.episodio} eps</span>
+                            </div>
+                          )}
+                          {contentItem.seasons && (
+                            <div className="flex items-center gap-1 text-gray-300">
+                              <Clock className="w-3 h-3" />
+                              <span>{contentItem.temporada} temp</span>
+                            </div>
+                          )}
                         </div>
+                        <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-2 rounded text-xs font-semibold transition-all">
+                          <Link href={`/ranking/${contentItem.id}`}>
+                            View Details →
+                          </Link>
+                        </button>
                       </div>
                     </div>
                   );

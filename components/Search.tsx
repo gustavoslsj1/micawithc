@@ -1,6 +1,5 @@
 "use client";
-
-import { useMemo, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import {
   Search,
   MapPin,
@@ -12,48 +11,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { rankingLista } from "@/lib/ranking-list";
+
 import Image from "next/image";
 import Link from "next/link";
+import { GetContents } from "@/lib/services/content";
 
-const internships = rankingLista.map((item, index) => ({
-  ids: index + 1,
-
-  title: item.title,
-  type: item.type,
-  Image: item.Image ?? null,
-  temporada: item.Temporada,
-  startDate: item.startDate,
-  duration: item.duration ?? null, // só filmes
-  episodes: item.episodes ?? null, // anime e série
-  genero: item.generos ?? [],
-  lastDate: item.lastDate,
-  Idade: item.Idade ?? "0",
-  postedDays: item.postedDays,
-}));
-
-export default function SearchPag() {
-  const [stipendRange, setStipendRange] = useState([0]);
+export default function SearchPag({ content }: { content: any[] }) {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState("");
   const [searchAge, setSearchAge] = useState("");
   const [searchGenere, setSearchGenere] = useState("");
-  const filteredList = useMemo(() => {
-    return internships.filter((item) => {
-      const matchSearch = item.title
-        .toLowerCase()
-        .includes(search.toLowerCase());
-      const matchType = item.type.includes(searchType);
-      const matchAge = item.Idade.includes(searchAge);
-      const matchGenere =
-        searchGenere === "" ||
-        item.genero.some((g) =>
-          g.toLowerCase().includes(searchGenere.toLowerCase()),
-        );
 
-      return matchSearch && matchType && matchAge && matchGenere;
-    });
-  }, [search, searchType, searchAge, searchGenere]);
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -196,24 +164,24 @@ export default function SearchPag() {
 
             {/* Internship Cards */}
             <div className="space-y-4">
-              {filteredList.map((internship) => (
+              {content.map((internship) => (
                 <div
-                  key={internship.ids}
+                  key={internship.id}
                   className="bg-[#12121a] rounded-xl p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
                 >
                   <div className="grid grid-cols-[200px_1fr_130px] justify-center items-center grid-rows-1 gap-4">
                     {/* Icon */}
                     <div className="w-full h-45 relative rounded-lg overflow-hidden">
                       <Image
-                        src={internship.Image ?? "/default-image.jpg"}
-                        alt={internship.title}
+                        src={internship.image ?? "/default-image.jpg"}
+                        alt={internship.name}
                         fill
                       />{" "}
                     </div>
 
                     <div>
                       <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                        {internship.title}
+                        {internship.name}
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
                         <Building2 className="w-4 h-4 text-fuchsia-400" />
@@ -221,7 +189,7 @@ export default function SearchPag() {
                         <span className="text-cyan-500">•</span>
                         <MapPin className="w-4 h-4 text-cyan-400" />
                         <span className="text-gray-50">
-                          classificação: {internship.Idade}+
+                          classificação: {internship.idade}+
                         </span>
                       </div>
 
@@ -231,7 +199,7 @@ export default function SearchPag() {
                           <Calendar className="w-4 h-4 text-cyan-400" />
                           <div>
                             <p className="text-gray-500 text-xs">Start Date</p>
-                            <p className="text-white">{internship.startDate}</p>
+                            <p className="text-white">{internship.year}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -247,7 +215,7 @@ export default function SearchPag() {
                                 <p className="text-white">
                                   {internship.type === "filme"
                                     ? internship.duration
-                                    : internship.episodes}
+                                    : internship.episodio}
                                 </p>
                               </div>
                             </div>
@@ -274,8 +242,9 @@ export default function SearchPag() {
 
                       {/* Tags */}
                       <div className="flex gap-2 mt-4">
-                        {internship.genero
-                          ? internship.genero.map((tag, index) => (
+                        {Array.isArray(internship.generos) &&
+                          internship.generos.map(
+                            (tag: string, index: Key | null | undefined) => (
                               <span
                                 key={index}
                                 className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -286,16 +255,18 @@ export default function SearchPag() {
                               >
                                 {tag.trim()}
                               </span>
-                            ))
-                          : null}
+                            ),
+                          )}
                       </div>
                     </div>
                     <div className="text-right flex flex-col   ">
                       <p className="text-xs text-gray-500 mb-4">
-                        Posted {internship.postedDays} Days Ago
+                        Posted {internship.year} Days Ago
                       </p>
                       <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow">
-                        <Link href={`/ranking/`}>View Details</Link>
+                        <Link href={`/ranking/${internship.id}`}>
+                          View Details →
+                        </Link>
                       </Button>
                     </div>
                   </div>
