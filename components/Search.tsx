@@ -7,6 +7,8 @@ import {
   Clock,
   Briefcase,
   Building2,
+  Filter,
+  X,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,6 +23,7 @@ export default function SearchPag({ content }: { content: any[] }) {
   const [searchType, setSearchType] = useState("");
   const [searchAge, setSearchAge] = useState("");
   const [searchGenere, setSearchGenere] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white pt-24 pb-16">
@@ -41,13 +44,34 @@ export default function SearchPag({ content }: { content: any[] }) {
           </div>
         </div>
 
-        <div className="flex gap-8">
+        {/* Mobile Filter Toggle Button */}
+        <div className="md:hidden mb-4">
+          <Button
+            onClick={() => setShowFilters(!showFilters)}
+            className="w-full bg-[#12121a] border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 flex items-center justify-center gap-2"
+          >
+            <Filter className="w-4 h-4" />
+            {showFilters ? "Esconder Filtros" : "Mostrar Filtros"}
+          </Button>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {/* Filters Sidebar */}
-          <aside className="w-64 shrink-0">
-            <div className="bg-[#12121a] rounded-xl p-5 border border-cyan-500/20 shadow-[0_0_30px_rgba(0,255,255,0.1)]">
-              <h2 className="text-lg font-semibold mb-5 text-cyan-400 drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">
-                Filters
-              </h2>
+          <aside
+            className={`w-full md:w-64 shrink-0 ${showFilters ? "block" : "hidden"} md:block`}
+          >
+            <div className="bg-[#12121a] rounded-xl p-5 border border-cyan-500/20 shadow-[0_0_30px_rgba(0,255,255,0.1)] relative">
+              <div className="flex items-center justify-between mb-5">
+                <h2 className="text-lg font-semibold text-cyan-400 drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">
+                  Filters
+                </h2>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="md:hidden text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
 
               {/* Profile */}
               <div className="mb-5">
@@ -144,11 +168,11 @@ export default function SearchPag({ content }: { content: any[] }) {
               <div className="flex gap-2 mt-6">
                 <Button
                   variant="ghost"
-                  className="flex-1 text-gray-400 hover:text-white hover:bg-white/5"
+                  className="flex-1 text-gray-400 hover:text-white hover:bg-white/5 text-sm"
                 >
                   Clear all
                 </Button>
-                <Button className="flex-1 bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg shadow-fuchsia-500/25">
+                <Button className="flex-1 bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg shadow-fuchsia-500/25 text-sm">
                   Apply
                 </Button>
               </div>
@@ -157,7 +181,7 @@ export default function SearchPag({ content }: { content: any[] }) {
 
           {/* Main Content */}
           <main className="flex-1">
-            <div className="flex items-center justify-between mb-4 text-sm text-gray-400">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 text-sm text-gray-400 gap-2">
               <span>Showing 1 to 2 of 2 Internships</span>
               <span>Show: 10 • Internships</span>
             </div>
@@ -167,26 +191,29 @@ export default function SearchPag({ content }: { content: any[] }) {
               {content.map((internship) => (
                 <div
                   key={internship.id}
-                  className="bg-[#12121a] rounded-xl p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
+                  className="bg-[#12121a] rounded-xl p-4 sm:p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
                 >
-                  <div className="grid grid-cols-[200px_1fr_130px] justify-center items-center grid-rows-1 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_130px] justify-center items-center grid-rows-1 gap-4">
                     {/* Icon */}
-                    <div className="w-full h-45 relative rounded-lg overflow-hidden">
+                    <div className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden">
                       <Image
                         src={internship.image ?? "/default-image.jpg"}
                         alt={internship.name}
                         fill
+                        className="object-cover"
                       />{" "}
                     </div>
 
                     <div>
-                      <h3 className="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
+                      <h3 className="text-lg sm:text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
                         {internship.name}
                       </h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
+                      <div className="flex flex-wrap items-center gap-2 text-sm text-gray-400 mt-1">
                         <Building2 className="w-4 h-4 text-fuchsia-400" />
                         <span> {internship.type}</span>
-                        <span className="text-cyan-500">•</span>
+                        <span className="text-cyan-500 hidden sm:inline">
+                          •
+                        </span>
                         <MapPin className="w-4 h-4 text-cyan-400" />
                         <span className="text-gray-50">
                           classificação: {internship.idade}+
@@ -194,35 +221,31 @@ export default function SearchPag({ content }: { content: any[] }) {
                       </div>
 
                       {/* Details Grid */}
-                      <div className="flex gap-6 mt-4 text-sm">
+                      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 mt-4 text-sm">
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-cyan-400" />
+                          <Calendar className="w-4 h-4 text-cyan-400 shrink-0" />
                           <div>
                             <p className="text-gray-500 text-xs">Start Date</p>
                             <p className="text-white">{internship.year}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-fuchsia-400" />
+                          <Clock className="w-4 h-4 text-fuchsia-400 shrink-0" />
                           <div>
-                            <div className="flex items-center gap-2">
-                              <div>
-                                <p className="text-gray-500 text-xs">
-                                  {internship.type === "filme"
-                                    ? "Duração"
-                                    : "Episódios"}
-                                </p>
-                                <p className="text-white">
-                                  {internship.type === "filme"
-                                    ? internship.duration
-                                    : internship.episodio}
-                                </p>
-                              </div>
-                            </div>
+                            <p className="text-gray-500 text-xs">
+                              {internship.type === "filme"
+                                ? "Duração"
+                                : "Episódios"}
+                            </p>
+                            <p className="text-white">
+                              {internship.type === "filme"
+                                ? internship.duration
+                                : internship.episodio}
+                            </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-fuchsia-400" />
+                          <Clock className="w-4 h-4 text-fuchsia-400 shrink-0" />
                           <div>
                             <p className="text-gray-500 text-xs">Temporadas</p>
                             <p className="text-white">{internship.temporada}</p>
@@ -230,7 +253,7 @@ export default function SearchPag({ content }: { content: any[] }) {
                         </div>
 
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-fuchsia-400" />
+                          <Calendar className="w-4 h-4 text-fuchsia-400 shrink-0" />
                           <div>
                             <p className="text-gray-500 text-xs">
                               Last Date To Apply
@@ -241,7 +264,7 @@ export default function SearchPag({ content }: { content: any[] }) {
                       </div>
 
                       {/* Tags */}
-                      <div className="flex gap-2 mt-4">
+                      <div className="flex flex-wrap gap-2 mt-4">
                         {Array.isArray(internship.generos) &&
                           internship.generos.map(
                             (tag: string, index: Key | null | undefined) => (
@@ -259,11 +282,11 @@ export default function SearchPag({ content }: { content: any[] }) {
                           )}
                       </div>
                     </div>
-                    <div className="text-right flex flex-col   ">
-                      <p className="text-xs text-gray-500 mb-4">
+                    <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start md:text-right gap-4 mt-4 md:mt-0">
+                      <p className="text-xs text-gray-500 md:mb-4">
                         Posted {internship.year} Days Ago
                       </p>
-                      <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow">
+                      <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow text-sm">
                         <Link href={`/ranking/${internship.id}`}>
                           View Details →
                         </Link>
