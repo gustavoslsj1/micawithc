@@ -1,23 +1,44 @@
+"use client";
 import { auth0 } from "@/lib/auth0";
 import { GetUserId } from "@/lib/services/auth0";
 import { GetContents } from "@/lib/services/content";
-import { createClient } from "@/lib/supabase/server";
+
 import { get } from "http";
 import { Bookmark, Calendar, Clock, Star, Tv } from "lucide-react";
 import Link from "next/link";
 import FavoriteButton from "./FavoriteButton";
+import { Button } from "./ui/button";
+import { createClientBrowser } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
+type User = {
+  userId: string;
+} | null;
 
-export default async function SalvosContent() {
-  const supabase = await createClient();
-  const user = await GetUserId();
+export default function SalvosContent({ user }: { user: User }) {
+  const [favoritos, setFavoritos] = useState<any[]>([]);
+  const [content, setContent] = useState<any[]>([]);
   const userId = user?.userId;
+  useEffect(() => {
+    const fetchData = async () => {
+      const supabase = await createClientBrowser();
 
-  const { data: content } = await GetContents();
+      const { data: content } = await GetContents();
 
-  const { data: favoritos } = await supabase
-    .from("favoritos")
-    .select("content_id")
-    .eq("user_id", userId);
+      const { data: favoritos } = await supabase
+        .from("favoritos")
+        .select("content_id")
+        .eq("user_id", userId);
+
+      setContent(content || []);
+      setFavoritos(favoritos || []);
+
+      console.log("USER ID:", userId);
+      console.log("CONTENT:", content);
+      console.log("FAVORITOS:", favoritos);
+    };
+    fetchData();
+  }, []);
+
   const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
   return (
     <div className="min-h-screen bg-black">
@@ -48,9 +69,12 @@ export default async function SalvosContent() {
                         alt={contentItem.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
+                      <Button className="absolute top-3 z-10 left-2 bg-cyan-700/60 hover:bg-cyan-800/70 text-white text-sm font-bold px-2 py-2 rounded-full">
+                        8
+                      </Button>
 
                       {/* Botão de bookmark sempre visível */}
-                      <div className="absolute top-2 right-2 z-10">
+                      <div className="absolute top-0 right-2 z-10">
                         <FavoriteButton
                           contentId={contentItem.id}
                           isFavorited={favoritosIds.has(contentItem.id)}

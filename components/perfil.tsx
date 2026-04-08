@@ -1,6 +1,21 @@
 "use client";
 
 import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Field, FieldGroup } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import {
   Home,
@@ -21,12 +36,13 @@ import {
   Bookmark,
   LogOut,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { insertContent } from "@/actions/content";
 
 const userData = {
   username: "Mikawithk",
@@ -130,6 +146,31 @@ const recentActivity = [
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("watching");
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [generos, setGenre] = useState<string[]>([]);
+  const [idade, setIdade] = useState("");
+  // async function handleSubmit(e: React.FormEvent) {
+  //   e.preventDefault();
+
+  //   try {
+  //     await InsertContent({
+  //       name,
+  //       type,
+  //       idade,
+  //       generos: genero.join(", "),
+  //     });
+
+  //     alert("Criado com sucesso 🚀");
+  //     setName("");
+  //     setType("");
+  //     setIdade("");
+  //     setGenre([]);
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Erro ao criar");
+  //   }
+  // }
 
   return (
     <div className="min-h-screen bg-background">
@@ -210,16 +251,92 @@ export default function ProfilePage() {
                   </div>
 
                   {/* Favorite Genres */}
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {userData.favoriteGenres.map((genre) => (
-                      <Badge
-                        key={genre}
-                        variant="outline"
-                        className="border-secondary/50 text-secondary hover:bg-secondary/10"
-                      >
-                        {genre}
-                      </Badge>
-                    ))}
+                  <div className="flex  justify-between   flex-wrap gap-2 mt-4">
+                    <div>
+                      {userData.favoriteGenres.map((genre) => (
+                        <Badge
+                          key={genre}
+                          variant="outline"
+                          className="border-secondary/50 text-secondary hover:bg-secondary/10"
+                        >
+                          {genre}
+                        </Badge>
+                      ))}
+                    </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline">novo conteudo</Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-sm">
+                        <form>
+                          <DialogHeader>
+                            <DialogTitle>Adicionar novo conteúdo</DialogTitle>
+                            <DialogDescription>
+                              Quer adicionar um novo anime ou filme? Preencha os
+                              detalhes abaixo e clique em salvar!
+                            </DialogDescription>
+                          </DialogHeader>
+                          <FieldGroup>
+                            <Field>
+                              <Label htmlFor="name-1">Nome</Label>
+                              <Input name="name" defaultValue="Naruto" />
+                            </Field>
+                            <Field>
+                              <Label htmlFor="username-1">tipo</Label>
+                              <Input name="type" defaultValue="Anime" />
+                            </Field>
+                            {/* <Field>
+                              <Label htmlFor="username-1">genero</Label>
+                              <Input
+                                name="generos"
+                                value={generos.join(", ")}
+                                onChange={(e) =>
+                                  setGenre(
+                                    e.target.value
+                                      .split(",")
+                                      .map((g) => g.trim()),
+                                  )
+                                }
+                                type="generos"
+                                defaultValue="Shonen"
+                              />
+                            </Field> */}
+                            {/* <Field>
+                              <Label htmlFor="username-1">
+                                idade recomendada
+                              </Label>
+                              <Input
+                                id="username-1"
+                                name="username"
+                                defaultValue="@peduarte"
+                              />
+                            </Field>
+                            <Field>
+                              <Label htmlFor="username-1">descrição</Label>
+                              <Input
+                                id="username-1"
+                                name="username"
+                                defaultValue="@peduarte"
+                              />
+                            </Field>
+                            <Field>
+                              <Label htmlFor="username-1">Imagem - link</Label>
+                              <Input
+                                id="username-1"
+                                name="username"
+                                defaultValue="@peduarte"
+                              />
+                            </Field> */}
+                          </FieldGroup>
+                          <DialogFooter>
+                            <DialogClose asChild>
+                              <Button variant="outline">Cancelar</Button>
+                            </DialogClose>
+                            <Button formAction={insertContent}>Salvar</Button>
+                          </DialogFooter>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </div>
               </div>

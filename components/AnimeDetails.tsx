@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Calendar,
@@ -13,23 +14,30 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
-import { auth0 } from "@/lib/auth0";
-import { createClient } from "@/lib/supabase/server";
 import Image from "next/image";
+import { use, useEffect, useState } from "react";
+import { createClientBrowser } from "@/lib/supabase/client";
+import StarRating from "./star_rating";
 
-export default async function AnimeDetails({ id }: { id: string }) {
+export default function AnimeDetails({ id }: { id: string }) {
   // const [newComment, setNewComment] = useState("");
   // const [commentList, setCommentList] = useState(comments);
-  const supabase = await createClient();
+  const [rating, setRating] = useState(0);
+  const [anime, setanime] = useState<any>(null);
+  useEffect(() => {
+    const fetchAnime = async () => {
+      const supabase = await createClientBrowser();
 
-  const session = await auth0.getSession();
-  const userId = session?.user.sub;
+      const { data: anime } = await supabase
+        .from("content")
+        .select()
+        .eq("id", id)
+        .single();
+      setanime(anime);
+    };
+    fetchAnime();
+  }, []);
 
-  const { data: anime } = await supabase
-    .from("content")
-    .select()
-    .eq("id", id)
-    .single();
   console.log("ID:", id);
   if (!anime) {
     return (
@@ -85,15 +93,13 @@ export default async function AnimeDetails({ id }: { id: string }) {
                 <p className="text-sm text-muted-foreground">Nota Média</p>
               </CardContent>
             </Card>
-            <Card className="border neon-border-pink bg-card/50 backdrop-blur">
-              <CardContent className="p-4 text-center">
-                <Tv className="w-6 h-6 mx-auto mb-2 text-secondary" />
-                <p className="text-2xl font-bold text-secondary neon-text-pink">
-                  {anime.episodes}
-                </p>
-                <p className="text-sm text-muted-foreground">Episódios</p>
-              </CardContent>
-            </Card>
+            <div className="p-6">
+              <StarRating value={rating} onChange={setRating} />
+
+              <p className="mt-2 text-sm text-muted-foreground">
+                Nota: {rating}
+              </p>
+            </div>
           </div>
         </div>
 

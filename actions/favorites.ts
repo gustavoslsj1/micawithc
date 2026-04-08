@@ -40,3 +40,25 @@ export async function favoriteAction(contentId: number) {
   // 🔄 atualiza UI
   revalidatePath("/"); // ou a rota do ranking
 }
+
+export async function editNota(contentId: number, nota: number) {
+  const session = await auth0.getSession();
+  const supabase = await createClient();
+
+  const userId = session?.user.sub;
+
+  const { data: favoritos } = await supabase
+    .from("favoritos")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("content_id", contentId);
+
+  if (favoritos) {
+    const { error } = await supabase
+      .from("favoritos")
+      .update({ nota })
+      .eq("user_id", userId)
+      .eq("content_id", contentId);
+    console.log("NOTA ATUALIZADA:", contentId, nota, error);
+  }
+}
