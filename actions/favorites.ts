@@ -53,12 +53,22 @@ export async function editNota(contentId: number, nota: number) {
     .eq("user_id", userId)
     .eq("content_id", contentId);
 
-  if (favoritos) {
+  if (favoritos && favoritos.length > 0) {
     const { error } = await supabase
       .from("favoritos")
       .update({ nota })
       .eq("user_id", userId)
       .eq("content_id", contentId);
+
+    console.log("USER ID:", userId);
+    console.log("CONTENT ID:", contentId);
+    console.log("UPDATE RESULT:", favoritos);
     console.log("NOTA ATUALIZADA:", contentId, nota, error);
+  } else {
+    await supabase.from("favoritos").insert({
+      user_id: userId,
+      content_id: contentId,
+      nota,
+    });
   }
 }

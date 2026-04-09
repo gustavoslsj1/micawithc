@@ -7,7 +7,6 @@ import {
   Play,
   Send,
   Star,
-  ThumbsUp,
   Tv,
   Users,
 } from "lucide-react";
@@ -15,15 +14,24 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createClientBrowser } from "@/lib/supabase/client";
 import StarRating from "./star_rating";
+import { content } from "@/types/content";
+import { editNota } from "@/actions/favorites";
+type Props = {
+  id: number;
+  user: {
+    userId: string;
+  } | null;
+};
 
-export default function AnimeDetails({ id }: { id: string }) {
+export default function AnimeDetails({ id, user }: Props) {
   // const [newComment, setNewComment] = useState("");
   // const [commentList, setCommentList] = useState(comments);
   const [rating, setRating] = useState(0);
-  const [anime, setanime] = useState<any>(null);
+  const [anime, setanime] = useState<content>();
+  const userId = user?.userId;
   useEffect(() => {
     const fetchAnime = async () => {
       const supabase = await createClientBrowser();
@@ -35,14 +43,37 @@ export default function AnimeDetails({ id }: { id: string }) {
         .single();
       setanime(anime);
     };
-    fetchAnime();
-  }, []);
+    const favorito = async () => {
+      const supabase = await createClientBrowser();
 
-  console.log("ID:", id);
+      const { data: favoritos } = await supabase
+        .from("favoritos")
+        .select("nota")
+        .eq("user_id", userId)
+        .eq("content_id", id)
+        .single();
+
+      setRating(favoritos?.nota ?? 0);
+    };
+    fetchAnime();
+    favorito();
+  }, [id, userId]);
+
+  const handleRating = async (value: number) => {
+    setRating(value); // atualiza UI instantaneamente
+    console.log(" esta fucionando");
+
+    try {
+      await editNota(id, value);
+    } catch (err) {
+      console.error("Erro ao salvar nota");
+    }
+  };
+
   if (!anime) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
-        <p>Anime não encontrado.</p>
+        <p>Carregando</p>
       </div>
     );
   }
@@ -94,7 +125,7 @@ export default function AnimeDetails({ id }: { id: string }) {
               </CardContent>
             </Card>
             <div className="p-6">
-              <StarRating value={rating} onChange={setRating} />
+              <StarRating value={rating} onChange={handleRating} />
 
               <p className="mt-2 text-sm text-muted-foreground">
                 Nota: {rating}
@@ -108,7 +139,7 @@ export default function AnimeDetails({ id }: { id: string }) {
           {/* Title & Info */}
           <div>
             <h1 className="text-4xl font-bold mb-4 text-foreground">
-              <span className="neon-text-cyan">{anime.title}</span>
+              <span className="neon-text-cyan">{anime.name}</span>
             </h1>
 
             <div className="flex flex-wrap gap-2 mb-4">
@@ -138,7 +169,7 @@ export default function AnimeDetails({ id }: { id: string }) {
                 <Calendar className="w-5 h-5 text-primary" />
                 <div>
                   <p className="text-sm text-muted-foreground">Ano</p>
-                  <p className="font-semibold">{anime.lastDate}</p>
+                  <p className="font-semibold">{anime.year}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -152,14 +183,14 @@ export default function AnimeDetails({ id }: { id: string }) {
                 <Clock className="w-5 h-5 text-primary" />
                 <div>
                   <p className="text-sm text-muted-foreground">Episódios</p>
-                  <p className="font-semibold">{anime.episodes}</p>
+                  <p className="font-semibold">{anime.episodio}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="w-5 h-5 text-primary" />
                 <div>
                   <p className="text-sm text-muted-foreground">Idade</p>
-                  <p className="font-semibold">+{anime.Idade}</p>
+                  <p className="font-semibold">+{anime.idade}</p>
                 </div>
               </div>
             </div>

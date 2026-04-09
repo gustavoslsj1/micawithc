@@ -1,4 +1,3 @@
-// app/actions/content.ts
 "use server";
 
 import { createClient } from "@/lib/supabase/server";

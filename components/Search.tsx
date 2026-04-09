@@ -1,11 +1,10 @@
 "use client";
-import { Key, useEffect, useState } from "react";
+import { Key, useState } from "react";
 import {
   Search,
   MapPin,
   Calendar,
   Clock,
-  Briefcase,
   Building2,
   Filter,
   X,

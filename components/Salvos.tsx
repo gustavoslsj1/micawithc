@@ -1,22 +1,23 @@
 "use client";
-import { auth0 } from "@/lib/auth0";
-import { GetUserId } from "@/lib/services/auth0";
-import { GetContents } from "@/lib/services/content";
 
-import { get } from "http";
-import { Bookmark, Calendar, Clock, Star, Tv } from "lucide-react";
+import { GetContents } from "@/lib/services/content";
+import Image from "next/image";
+
 import Link from "next/link";
 import FavoriteButton from "./FavoriteButton";
 import { Button } from "./ui/button";
 import { createClientBrowser } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
+import { content } from "@/types/content";
+import { favoritos } from "@/types/favoritos";
+import { Calendar, Clock, Star, Tv } from "lucide-react";
 type User = {
   userId: string;
 } | null;
 
 export default function SalvosContent({ user }: { user: User }) {
-  const [favoritos, setFavoritos] = useState<any[]>([]);
-  const [content, setContent] = useState<any[]>([]);
+  const [favoritos, setFavoritos] = useState<favoritos[]>([]);
+  const [content, setContent] = useState<content[]>([]);
   const userId = user?.userId;
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +27,7 @@ export default function SalvosContent({ user }: { user: User }) {
 
       const { data: favoritos } = await supabase
         .from("favoritos")
-        .select("content_id")
+        .select("*")
         .eq("user_id", userId);
 
       setContent(content || []);
@@ -37,7 +38,7 @@ export default function SalvosContent({ user }: { user: User }) {
       console.log("FAVORITOS:", favoritos);
     };
     fetchData();
-  }, []);
+  }, [userId]);
 
   const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
   return (
@@ -64,13 +65,14 @@ export default function SalvosContent({ user }: { user: User }) {
                       className="relative rounded-lg overflow-hidden border border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20 group w-full aspect-[2/3]"
                     >
                       {/* Imagem de fundo */}
-                      <img
+                      <Image
+                        fill
                         src={contentItem.image}
                         alt={contentItem.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
-                      <Button className="absolute top-3 z-10 left-2 bg-cyan-700/60 hover:bg-cyan-800/70 text-white text-sm font-bold px-2 py-2 rounded-full">
-                        8
+                      <Button className="absolute top-3 z-10 left-2 bg-black/80 hover:bg-black/90 text-white  font-bold px-3  rounded-full">
+                        <span className="text-yellow-400">2</span>
                       </Button>
 
                       {/* Botão de bookmark sempre visível */}
@@ -106,7 +108,7 @@ export default function SalvosContent({ user }: { user: User }) {
                               <span>{contentItem.episodio} eps</span>
                             </div>
                           )}
-                          {contentItem.seasons && (
+                          {contentItem.temporada && (
                             <div className="flex items-center gap-1 text-gray-300">
                               <Clock className="w-3 h-3" />
                               <span>{contentItem.temporada} temp</span>

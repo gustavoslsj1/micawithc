@@ -1,9 +1,7 @@
 import {
   Trophy,
-  BadgeCheckIcon,
   Star,
   MessageSquare,
-  Briefcase,
   Building2,
   MapPin,
   Calendar,
@@ -17,11 +15,8 @@ import {
   SelectValue,
 } from "./ui/select";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "./ui/button";
-import { rankingLista } from "@/lib/ranking-list";
-import { auth0 } from "@/lib/auth0";
-import { favoriteAction } from "@/actions/favorites";
+
 import FavoriteButton from "./FavoriteButton";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";

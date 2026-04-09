@@ -1,4 +1,3 @@
-import FavoriteButton from "@/components/FavoriteButton";
 import { auth0 } from "@/lib/auth0";
 import { createClient } from "@/lib/supabase/server";
 
@@ -8,7 +7,7 @@ export default async function Page() {
   const session = await auth0.getSession();
   const userId = session?.user.sub;
 
-  const { data: content, error } = await supabase.from("content").select();
+  const { data: content } = await supabase.from("content").select();
 
   const { data: dataFavoritos } = await supabase
     .from("favoritos")
