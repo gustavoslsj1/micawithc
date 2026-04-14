@@ -19,6 +19,7 @@ export default function SalvosContent({ user }: { user: User }) {
   const [favoritos, setFavoritos] = useState<favoritos[]>([]);
   const [content, setContent] = useState<content[]>([]);
   const userId = user?.userId;
+
   useEffect(() => {
     const fetchData = async () => {
       const supabase = await createClientBrowser();
@@ -72,7 +73,9 @@ export default function SalvosContent({ user }: { user: User }) {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       <Button className="absolute top-3 z-10 left-2 bg-black/80 hover:bg-black/90 text-white  font-bold px-3  rounded-full">
-                        <span className="text-yellow-400">2</span>
+                        <span className="text-yellow-400">
+                          {contentItem.nota}
+                        </span>
                       </Button>
 
                       {/* Botão de bookmark sempre visível */}

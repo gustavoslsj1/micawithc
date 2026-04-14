@@ -4,7 +4,7 @@ import { GetUserId } from "@/lib/services/auth0";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }) {
   const user = await GetUserId();
   const { id } = await params;

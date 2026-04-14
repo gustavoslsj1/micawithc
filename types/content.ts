@@ -12,4 +12,5 @@ export interface content {
   url_video: string;
   nota: number;
   synopsis: string;
+  avaliacaos: number;
 }

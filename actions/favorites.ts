@@ -41,34 +41,40 @@ export async function favoriteAction(contentId: number) {
   revalidatePath("/"); // ou a rota do ranking
 }
 
-export async function editNota(contentId: number, nota: number) {
+export async function editNota(contentId: string, nota: number) {
   const session = await auth0.getSession();
   const supabase = await createClient();
 
   const userId = session?.user.sub;
 
-  const { data: favoritos } = await supabase
+  const { data: existing } = await supabase
     .from("favoritos")
-    .select("*")
+    .select("id")
     .eq("user_id", userId)
-    .eq("content_id", contentId);
+    .eq("content_id", contentId)
+    .single();
 
-  if (favoritos && favoritos.length > 0) {
-    const { error } = await supabase
+  if (existing) {
+    // só atualiza nota
+    await supabase
       .from("favoritos")
       .update({ nota })
       .eq("user_id", userId)
       .eq("content_id", contentId);
-
-    console.log("USER ID:", userId);
-    console.log("CONTENT ID:", contentId);
-    console.log("UPDATE RESULT:", favoritos);
-    console.log("NOTA ATUALIZADA:", contentId, nota, error);
+    await supabase.from("content").update({ nota }).eq("id", contentId);
   } else {
+    // primeira vez
     await supabase.from("favoritos").insert({
       user_id: userId,
       content_id: contentId,
       nota,
+    });
+    await supabase.from("content").update({ nota }).eq("id", contentId);
+  }
+
+  if (!existing) {
+    await supabase.rpc("increment_avaliacoes", {
+      p_content_id: contentId,
     });
   }
 }
