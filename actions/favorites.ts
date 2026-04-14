@@ -40,41 +40,38 @@ export async function favoriteAction(contentId: number) {
   // 🔄 atualiza UI
   revalidatePath("/"); // ou a rota do ranking
 }
-
 export async function editNota(contentId: string, nota: number) {
   const session = await auth0.getSession();
   const supabase = await createClient();
-
   const userId = session?.user.sub;
 
   const { data: existing } = await supabase
     .from("favoritos")
-    .select("id")
+    .select("nota")
     .eq("user_id", userId)
     .eq("content_id", contentId)
-    .single();
+    .maybeSingle();
 
   if (existing) {
-    // só atualiza nota
+    // update
     await supabase
       .from("favoritos")
       .update({ nota })
       .eq("user_id", userId)
       .eq("content_id", contentId);
-    await supabase.from("content").update({ nota }).eq("id", contentId);
   } else {
-    // primeira vez
+    // insert
     await supabase.from("favoritos").insert({
       user_id: userId,
       content_id: contentId,
       nota,
     });
-    await supabase.from("content").update({ nota }).eq("id", contentId);
   }
 
-  if (!existing) {
-    await supabase.rpc("increment_avaliacoes", {
-      p_content_id: contentId,
-    });
-  }
+  // 🔥 chama função centralizada
+  await supabase.rpc("rate_content", {
+    p_content_id: contentId,
+    p_old_nota: existing?.nota ?? null,
+    p_new_nota: nota,
+  });
 }

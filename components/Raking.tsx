@@ -133,14 +133,17 @@ export default async function Ranking() {
                   >
                     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_130px] grid-rows-1 justify-center items-center gap-4">
                       {/* Icon */}
-                      <div className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden">
+                      <Link
+                        className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden"
+                        href={`/ranking/${item.id}`}
+                      >
                         <Image
                           src={item.image ?? "/default-image.jpg"}
                           alt={item.name}
                           fill
                           className="object-cover"
                         />{" "}
-                      </div>
+                      </Link>
 
                       <div className="w-full">
                         <div className="flex flex-col sm:flex-row gap-2 sm:gap-5">

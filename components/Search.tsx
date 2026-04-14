@@ -205,15 +205,16 @@ export default function SearchPag({ content }: { content: content[] }) {
                 >
                   <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_130px] justify-center items-center grid-rows-1 gap-4">
                     {/* Icon */}
-                    <div className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden">
-                      <Image
-                        src={internship.image ?? "/default-image.jpg"}
-                        alt={internship.name}
-                        fill
-                        className="object-cover"
-                      />{" "}
-                    </div>
-
+                    <Link href={`/ranking/${internship.id}`}>
+                      <div className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden">
+                        <Image
+                          src={internship.image ?? "/default-image.jpg"}
+                          alt={internship.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    </Link>
                     <div>
                       <h3 className="text-lg sm:text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
                         {internship.name}
