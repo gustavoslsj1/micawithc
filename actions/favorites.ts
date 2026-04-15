@@ -2,7 +2,6 @@
 
 import { auth0 } from "@/lib/auth0";
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
 
 export async function favoriteAction(contentId: number) {
   const session = await auth0.getSession();
@@ -10,7 +9,6 @@ export async function favoriteAction(contentId: number) {
 
   const userId = session?.user.sub;
 
-  // 🔍 verifica se já existe
   const { data: existing } = await supabase
     .from("favoritos")
     .select("*")
@@ -19,26 +17,24 @@ export async function favoriteAction(contentId: number) {
     .maybeSingle();
 
   if (existing) {
-    // 💔 REMOVE
-    const { error } = await supabase
+    const newValue = !existing.favoritado;
+
+    await supabase
       .from("favoritos")
-      .delete()
+      .update({ favoritado: newValue })
       .eq("user_id", userId)
       .eq("content_id", contentId);
 
-    console.log("REMOVED:", contentId, error);
+    return { favorited: newValue }; // 🔥 IMPORTANTE
   } else {
-    // ❤️ ADICIONA
-    const { error } = await supabase.from("favoritos").insert({
+    await supabase.from("favoritos").insert({
       user_id: userId,
       content_id: contentId,
+      favoritado: true,
     });
 
-    console.log("ADDED:", contentId, error);
+    return { favorited: true }; // 🔥 IMPORTANTE
   }
-
-  // 🔄 atualiza UI
-  revalidatePath("/"); // ou a rota do ranking
 }
 export async function editNota(contentId: number, nota: number) {
   const session = await auth0.getSession();

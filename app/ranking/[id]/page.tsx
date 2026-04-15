@@ -8,7 +8,6 @@ export default async function Page({
 }) {
   const user = await GetUserId();
   const { id } = await params;
-  console.log(id);
 
   return <AnimeDetails id={id} user={user} />;
 }

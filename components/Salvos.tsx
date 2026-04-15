@@ -12,10 +12,12 @@ import { content } from "@/types/content";
 import { favoritos } from "@/types/favoritos";
 import { Calendar, Clock, Star, Tv } from "lucide-react";
 type User = {
-  userId: string;
-} | null;
+  user: {
+    userId: string;
+  } | null;
+};
 
-export default function SalvosContent({ user }: { user: User }) {
+export default function SalvosContent({ user }: User) {
   const [favoritos, setFavoritos] = useState<favoritos[]>([]);
   const [content, setContent] = useState<content[]>([]);
   const userId = user?.userId;
@@ -36,9 +38,10 @@ export default function SalvosContent({ user }: { user: User }) {
     };
     fetchData();
   }, [userId]);
-  console.log("ASDA ", favoritos);
 
-  const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
+  const favoritosIds = new Set(
+    (favoritos ?? []).filter((f) => f.favoritado).map((f) => f.content_id),
+  );
   const favoritosMap = new Map(favoritos.map((fav) => [fav.content_id, fav]));
   return (
     <div className="min-h-screen bg-black">

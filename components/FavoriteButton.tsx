@@ -3,7 +3,7 @@
 import { favoriteAction } from "@/actions/favorites";
 import { Star, StarOff } from "lucide-react";
 import { Button } from "./ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function FavoriteButton({
   contentId,
@@ -14,10 +14,20 @@ export default function FavoriteButton({
 }) {
   const [favorite, setFavorite] = useState(isFavorited);
 
-  async function handleClick() {
-    await favoriteAction(contentId);
+  useEffect(() => {
+    setFavorite(isFavorited);
+  }, [isFavorited]);
 
-    setFavorite(!favorite); // otimista
+  async function handleClick() {
+    const prev = favorite;
+    setFavorite(!prev); // otimista
+
+    try {
+      const res = await favoriteAction(contentId);
+      if (res) setFavorite(res.favorited);
+    } catch {
+      setFavorite(prev);
+    }
   }
   return (
     <Button

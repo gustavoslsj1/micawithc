@@ -33,10 +33,11 @@ export default async function Ranking() {
 
   const { data: favoritos } = await supabase
     .from("favoritos")
-    .select("content_id")
+    .select("content_id, favoritado")
     .eq("user_id", userId);
-  const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
-
+  const favoritosIds = new Set(
+    (favoritos ?? []).filter((f) => f.favoritado).map((f) => f.content_id),
+  );
   // const [filter, setfilter] = useState<TipoConteudo>("todos");
   // const filter: TipoConteudo = "todos";
   // const listaOrdenadaGeral = [...lista].sort((a, b) => {
@@ -118,10 +119,10 @@ export default async function Ranking() {
             </div>
             <div className="space-y-4">
               {content?.map((item) => {
-                const rankingFinal =
-                  item.NotaGugu && item.NotaMika
-                    ? (item.NotaGugu + item.NotaMika) / 2
-                    : null;
+                // const rankingFinal =
+                //   item.NotaGugu && item.NotaMika
+                //     ? (item.NotaGugu + item.NotaMika) / 2
+                //     : null;
 
                 // const rankingGeral = getRankingGeral(item);
                 // const rankingCategoria = getRankingCategoria(item);
@@ -223,7 +224,7 @@ export default async function Ranking() {
                               </span>
                             ))}
                         </div>
-
+                        {/* 
                         <p className="text-gray-300 text-sm flex flex-row gap-2 sm:gap-3 pt-5 flex-wrap items-center">
                           Nota: {rankingFinal?.toFixed(1)}
                           <Star width={14} />=
@@ -235,7 +236,7 @@ export default async function Ranking() {
                             Gugu: {item.NotaGugu}
                             <Star width={14} />
                           </span>
-                        </p>
+                        </p> */}
                       </div>
                       <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-between h-full md:text-right gap-4 mt-4 md:mt-0">
                         <div className="hidden md:block"></div>

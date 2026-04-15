@@ -1,5 +1,5 @@
 "use client";
-import { Key, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import {
   Search,
   MapPin,
@@ -8,24 +8,47 @@ import {
   Building2,
   Filter,
   X,
+  MessageSquare,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { content } from "@/types/content";
 import Image from "next/image";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-export default function SearchPag({ content }: { content: content[] }) {
+import FavoriteButton from "./FavoriteButton";
+import { createClientBrowser } from "@/lib/supabase/client";
+import { favoritos } from "@/types/favoritos";
+type SearchPagProps = {
+  itens: content[];
+  user: {
+    userId: string;
+  } | null;
+};
+export default function SearchPag({ itens, user }: SearchPagProps) {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState("");
   const [searchAge, setSearchAge] = useState("");
   const [searchGenere, setSearchGenere] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [favoritos, setFavoritos] = useState<favoritos[]>([]);
+  const userId = user?.userId;
+  useEffect(() => {
+    const fetchData = async () => {
+      const supabase = await createClientBrowser();
 
-  const filteredContent = content.filter((item) => {
+      const { data: favoritos } = await supabase
+        .from("favoritos")
+        .select()
+        .eq("user_id", userId);
+      setFavoritos(favoritos || []);
+    };
+    fetchData();
+  }, [userId]);
+  console.log("ASDA ", favoritos);
+  const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
+  const filteredContent = itens.filter((item) => {
     // filtro de texto (nome, tipo, genero)
     const matchesSearch =
       item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -289,6 +312,15 @@ export default function SearchPag({ content }: { content: content[] }) {
                         <Link href={`/ranking/${internship.id}`}>
                           View Details →
                         </Link>
+                      </Button>
+                    </div>
+                    <div className="flex justify-end gap-3 sm:gap-5">
+                      <FavoriteButton
+                        contentId={internship.id}
+                        isFavorited={favoritosIds.has(internship.id)}
+                      />
+                      <Button className="bg-indigo-100 w-7 h-7 rounded-4xl hover:bg-indigo-300 text-black md:mt-4">
+                        <MessageSquare />
                       </Button>
                     </div>
                   </div>
