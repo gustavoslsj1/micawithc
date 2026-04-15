@@ -20,8 +20,10 @@ import { createClientBrowser } from "@/lib/supabase/client";
 import StarRating from "./star_rating";
 import { content } from "@/types/content";
 import { editNota } from "@/actions/favorites";
+import { SpinnerCustom } from "./spiner";
+import { toast } from "sonner";
 type Props = {
-  id: string;
+  id: number;
   user: {
     userId: string;
   } | null;
@@ -97,6 +99,11 @@ export default function AnimeDetails({ id, user }: Props) {
 
     try {
       await editNota(id, value);
+      toast.success("Nota salva!", {
+        description: `Você avaliou com ${value} estrelas ⭐`,
+        position: "top-center",
+        className: "bg-green-500 text-white border-none",
+      });
     } catch (err) {
       console.error("Erro ao salvar nota");
     }
@@ -105,7 +112,7 @@ export default function AnimeDetails({ id, user }: Props) {
   if (!anime) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
-        <p>Carregando</p>
+        <SpinnerCustom />
       </div>
     );
   }

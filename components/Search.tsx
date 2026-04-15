@@ -12,22 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
+import { content } from "@/types/content";
 import Image from "next/image";
 import Link from "next/link";
-type content = {
-  id: string;
-  name: string;
-  generos?: string;
-  year?: number;
-  image: string;
-  type: string;
-  idade: number;
-  temporada: number;
-  duration: number;
-  synopsis: string;
-  episodio: number;
-};
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 export default function SearchPag({ content }: { content: content[] }) {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState("");
@@ -35,6 +25,34 @@ export default function SearchPag({ content }: { content: content[] }) {
   const [searchGenere, setSearchGenere] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
+  const filteredContent = content.filter((item) => {
+    // filtro de texto (nome, tipo, genero)
+    const matchesSearch =
+      item.name.toLowerCase().includes(search.toLowerCase()) ||
+      item.type.toLowerCase().includes(search.toLowerCase()) ||
+      (Array.isArray(item.generos) &&
+        item.generos.some((g) =>
+          g.toLowerCase().includes(search.toLowerCase()),
+        ));
+
+    // filtro tipo
+    const matchesType = searchType
+      ? item.type.toLowerCase() === searchType
+      : true;
+
+    // filtro idade
+    const matchesAge = searchAge ? item.idade?.toString() === searchAge : true;
+
+    // filtro genero (input)
+    const matchesGenere = searchGenere
+      ? Array.isArray(item.generos) &&
+        item.generos.some((g) =>
+          g.toLowerCase().includes(searchGenere.toLowerCase()),
+        )
+      : true;
+
+    return matchesSearch && matchesType && matchesAge && matchesGenere;
+  });
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -84,17 +102,6 @@ export default function SearchPag({ content }: { content: content[] }) {
               </div>
 
               {/* Profile */}
-              <div className="mb-5">
-                <label className="text-sm text-gray-400 mb-2 block">
-                  Genero
-                </label>
-                <Input
-                  placeholder="Search Profile"
-                  className="bg-[#0a0a0f] border-fuchsia-500/30 text-white text-sm focus:border-fuchsia-400"
-                  value={searchGenere}
-                  onChange={(e) => setSearchGenere(e.target.value)}
-                />
-              </div>
 
               {/* Internship Type */}
               <div className="mb-5">
@@ -102,36 +109,26 @@ export default function SearchPag({ content }: { content: content[] }) {
                   <label className="text-sm text-gray-400 mb-2 block">
                     Tipos
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-cyan-400 transition-colors">
-                    <Checkbox
-                      className="border-cyan-500/50 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
-                      value={searchType}
-                      onCheckedChange={(checked) =>
-                        setSearchType(checked ? "anime" : "")
-                      }
-                    />
-                    Anime
-                  </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-cyan-400 transition-colors">
-                    <Checkbox
-                      className="border-cyan-500/50 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
-                      value={searchType}
-                      onCheckedChange={(checked) =>
-                        setSearchType(checked ? "filme" : "")
-                      }
-                    />
-                    Filme
-                  </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-cyan-400 transition-colors">
-                    <Checkbox
-                      className="border-cyan-500/50 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
-                      value={searchType}
-                      onCheckedChange={(checked) =>
-                        setSearchType(checked ? "serie" : "")
-                      }
-                    />
-                    Serie
-                  </label>
+                  <RadioGroup
+                    value={searchType}
+                    onValueChange={(value) => setSearchType(value)}
+                    className="space-y-2"
+                  >
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="anime" id="anime" />
+                      <label htmlFor="anime">Anime</label>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="filme" id="filme" />
+                      <label htmlFor="filme">Filme</label>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="serie" id="serie" />
+                      <label htmlFor="serie">Série</label>
+                    </div>
+                  </RadioGroup>
                 </div>
               </div>
 
@@ -141,49 +138,40 @@ export default function SearchPag({ content }: { content: content[] }) {
                   <label className="text-sm text-gray-400 mb-2 block">
                     Idades
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-fuchsia-400 transition-colors">
-                    <Checkbox
-                      className="border-fuchsia-500/50 data-[state=checked]:bg-fuchsia-500 data-[state=checked]:border-fuchsia-500"
-                      value={searchAge}
-                      onCheckedChange={(checked) =>
-                        setSearchAge(checked ? "18" : "")
-                      }
-                    />
-                    18+
-                  </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-fuchsia-400 transition-colors">
-                    <Checkbox
-                      className="border-fuchsia-500/50 data-[state=checked]:bg-fuchsia-500 data-[state=checked]:border-fuchsia-500"
-                      value={searchAge}
-                      onCheckedChange={(checked) =>
-                        setSearchAge(checked ? "16" : "")
-                      }
-                    />
-                    16+
-                  </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer hover:text-fuchsia-400 transition-colors">
-                    <Checkbox
-                      className="border-fuchsia-500/50 data-[state=checked]:bg-fuchsia-500 data-[state=checked]:border-fuchsia-500"
-                      value={searchAge}
-                      onCheckedChange={(checked) =>
-                        setSearchAge(checked ? "14" : "")
-                      }
-                    />
-                    14+
-                  </label>
+                  <RadioGroup
+                    value={searchAge}
+                    onValueChange={(value) => setSearchAge(value)}
+                    className="space-y-2"
+                  >
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="18" id="age18" />
+                      <label htmlFor="age18">18+</label>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="16" id="age16" />
+                      <label htmlFor="age16">16+</label>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="14" id="age14" />
+                      <label htmlFor="age14">14+</label>
+                    </div>
+                  </RadioGroup>
                 </div>
               </div>
 
               {/* Buttons */}
               <div className="flex gap-2 mt-6">
                 <Button
+                  onClick={() => {
+                    setSearchAge("");
+                    setSearchType("");
+                  }}
                   variant="ghost"
-                  className="flex-1 text-gray-400 hover:text-white hover:bg-white/5 text-sm"
+                  className="flex-1 bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg shadow-fuchsia-500/25 text-sm"
                 >
-                  Clear all
-                </Button>
-                <Button className="flex-1 bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg shadow-fuchsia-500/25 text-sm">
-                  Apply
+                  Limpar
                 </Button>
               </div>
             </div>
@@ -198,7 +186,7 @@ export default function SearchPag({ content }: { content: content[] }) {
 
             {/* Internship Cards */}
             <div className="space-y-4">
-              {content.map((internship) => (
+              {filteredContent.map((internship) => (
                 <div
                   key={internship.id}
                   className="bg-[#12121a] rounded-xl p-4 sm:p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"

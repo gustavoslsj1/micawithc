@@ -69,7 +69,7 @@ export default function NavbarClient({ user }: Props) {
             <Button
               variant="outline"
               size="sm"
-              className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground neon-border-pink text-xs lg:text-sm"
+              className=" text-gray-700 border-red-500/30 hover:bg-secondary hover:text-secondary-foreground hover:ring-red-500/80 cursor-pointer neon-border-pink text-xs lg:text-sm"
             >
               <LogOut className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
               Logout

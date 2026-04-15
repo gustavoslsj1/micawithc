@@ -40,7 +40,7 @@ export async function favoriteAction(contentId: number) {
   // 🔄 atualiza UI
   revalidatePath("/"); // ou a rota do ranking
 }
-export async function editNota(contentId: string, nota: number) {
+export async function editNota(contentId: number, nota: number) {
   const session = await auth0.getSession();
   const supabase = await createClient();
   const userId = session?.user.sub;
