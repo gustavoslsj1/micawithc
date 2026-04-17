@@ -39,6 +39,14 @@ export default function HomePage() {
               </button>
             </Link>
           </div>
+          <div className="flex justify-center mt-5">
+            <Link href="/Search">
+              <button className="px-8 cursor-pointer flex flex-row gap-5 py-3 bg-linear-to-r text-xl justify-center items-center from-purple-500 to-pink-500 text-white rounded-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] transition-all hover:translate-x-1">
+                🎲 Me recomenda algo
+                <ArrowBigRight size={24} />
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -58,7 +66,7 @@ export default function HomePage() {
             <ArrowRight size={18} />
           </button>
         </div>
-        <div className=" mt-36  flex justify-baseline items-baseline">
+        {/* <div className=" mt-36  flex justify-baseline items-baseline">
           <h1 className="text-white font-bold text-2xl">
             Ultimos episodios assistidos
           </h1>
@@ -71,7 +79,7 @@ export default function HomePage() {
               className="bg-gray-800/50 rounded-xl h-96 animate-pulse"
             ></div>
           ))}
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* {featuredReviews.map((review) => (

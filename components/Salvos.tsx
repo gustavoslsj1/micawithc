@@ -128,7 +128,7 @@ export default function SalvosContent({ user }: User) {
 
                     <Link href={`/ranking/${contentItem.id}`}>
                       <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-2 rounded text-xs font-semibold transition-all">
-                        View Details →
+                        Ver detalhes →
                       </Button>
                     </Link>
                   </div>

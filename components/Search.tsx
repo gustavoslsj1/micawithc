@@ -20,6 +20,23 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import FavoriteButton from "./FavoriteButton";
 import { createClientBrowser } from "@/lib/supabase/client";
 import { favoritos } from "@/types/favoritos";
+import { Field, FieldLabel } from "@/components/ui/field";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 type SearchPagProps = {
   itens: content[];
   user: {
@@ -31,23 +48,32 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
   const [searchType, setSearchType] = useState("");
   const [searchAge, setSearchAge] = useState("");
   const [searchGenere, setSearchGenere] = useState("");
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
   const [favoritos, setFavoritos] = useState<favoritos[]>([]);
   const userId = user?.userId;
   useEffect(() => {
     const fetchData = async () => {
       const supabase = await createClientBrowser();
+      const from = (page - 1) * limit;
+      const to = from + limit - 1;
 
       const { data: favoritos } = await supabase
         .from("favoritos")
         .select()
-        .eq("user_id", userId);
+        .eq("user_id", userId)
+        .range(from, to);
       setFavoritos(favoritos || []);
     };
     fetchData();
-  }, [userId]);
-  console.log("ASDA ", favoritos);
-  const favoritosIds = new Set(favoritos?.map((fav) => fav.content_id));
+  }, [userId, page, limit]);
+
+  const favoritosIds = new Set(
+    favoritos
+      ?.filter((fav) => fav.favoritado === true)
+      .map((fav) => fav.content_id),
+  );
   const filteredContent = itens.filter((item) => {
     // filtro de texto (nome, tipo, genero)
     const matchesSearch =
@@ -76,6 +102,7 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
 
     return matchesSearch && matchesType && matchesAge && matchesGenere;
   });
+
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -202,131 +229,191 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
 
           {/* Main Content */}
           <main className="flex-1">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 text-sm text-gray-400 gap-2">
-              <span>Showing 1 to 2 of 2 Internships</span>
-              <span>Show: 10 • Internships</span>
-            </div>
-
             {/* Internship Cards */}
             <div className="space-y-4">
-              {filteredContent.map((internship) => (
-                <div
-                  key={internship.id}
-                  className="bg-[#12121a] rounded-xl p-4 sm:p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_130px] justify-center items-center grid-rows-1 gap-4">
-                    {/* Icon */}
-                    <Link href={`/ranking/${internship.id}`}>
-                      <div className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden">
-                        <Image
-                          src={internship.image ?? "/default-image.jpg"}
-                          alt={internship.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    </Link>
-                    <div>
-                      <h3 className="text-lg sm:text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                        {internship.name}
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-2 text-sm text-gray-400 mt-1">
-                        <Building2 className="w-4 h-4 text-fuchsia-400" />
-                        <span> {internship.type}</span>
-                        <span className="text-cyan-500 hidden sm:inline">
-                          •
-                        </span>
-                        <MapPin className="w-4 h-4 text-cyan-400" />
-                        <span className="text-gray-50">
-                          classificação: {internship.idade}+
-                        </span>
-                      </div>
-
-                      {/* Details Grid */}
-                      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 mt-4 text-sm">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-cyan-400 shrink-0" />
-                          <div>
-                            <p className="text-gray-500 text-xs">Start Date</p>
-                            <p className="text-white">{internship.year}</p>
-                          </div>
+              {filteredContent
+                .slice((page - 1) * limit, page * limit)
+                .map((internship) => (
+                  <div
+                    key={internship.id}
+                    className="bg-[#12121a] rounded-xl p-4 sm:p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_130px] justify-center items-center grid-rows-1 gap-4">
+                      {/* Icon */}
+                      <Link href={`/ranking/${internship.id}`}>
+                        <div className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden">
+                          <Image
+                            src={internship.image ?? "/default-image.jpg"}
+                            alt={internship.name}
+                            fill
+                            className="object-cover"
+                          />
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-fuchsia-400 shrink-0" />
-                          <div>
-                            <p className="text-gray-500 text-xs">
-                              {internship.type === "filme"
-                                ? "Duração"
-                                : "Episódios"}
-                            </p>
-                            <p className="text-white">
-                              {internship.type === "filme"
-                                ? internship.duration
-                                : internship.episodio}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-fuchsia-400 shrink-0" />
-                          <div>
-                            <p className="text-gray-500 text-xs">Temporadas</p>
-                            <p className="text-white">{internship.temporada}</p>
-                          </div>
+                      </Link>
+                      <div>
+                        <h3 className="text-lg sm:text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors">
+                          {internship.name}
+                        </h3>
+                        <div className="flex flex-wrap items-center gap-2 text-sm text-gray-400 mt-1">
+                          <Building2 className="w-4 h-4 text-fuchsia-400" />
+                          <span> {internship.type}</span>
+                          <span className="text-cyan-500 hidden sm:inline">
+                            •
+                          </span>
+                          <MapPin className="w-4 h-4 text-cyan-400" />
+                          <span className="text-gray-50">
+                            classificação: {internship.idade}+
+                          </span>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-fuchsia-400 shrink-0" />
-                          <div>
-                            <p className="text-gray-500 text-xs">
-                              Last Date To Apply
-                            </p>
-                            <p className="text-white">{internship.year}</p>
+                        {/* Details Grid */}
+                        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 mt-4 text-sm">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-cyan-400 shrink-0" />
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                Start Date
+                              </p>
+                              <p className="text-white">{internship.year}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-fuchsia-400 shrink-0" />
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                {internship.type === "filme"
+                                  ? "Duração"
+                                  : "Episódios"}
+                              </p>
+                              <p className="text-white">
+                                {internship.type === "filme"
+                                  ? internship.duration
+                                  : internship.episodio}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-fuchsia-400 shrink-0" />
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                Temporadas
+                              </p>
+                              <p className="text-white">
+                                {internship.temporada}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-fuchsia-400 shrink-0" />
+                            <div>
+                              <p className="text-gray-500 text-xs">
+                                Last Date To Apply
+                              </p>
+                              <p className="text-white">{internship.year}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {Array.isArray(internship.generos) &&
-                          internship.generos.map(
-                            (tag: string, index: Key | null | undefined) => (
-                              <span
-                                key={index}
-                                className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                  tag.includes("Pre Placement")
-                                    ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
-                                    : "bg-fuchsia-500/20 text-fuchsia-400 border border-fuchsia-500/30"
-                                }`}
-                              >
-                                {tag.trim()}
-                              </span>
-                            ),
-                          )}
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {Array.isArray(internship.generos) &&
+                            internship.generos.map(
+                              (tag: string, index: Key | null | undefined) => (
+                                <span
+                                  key={index}
+                                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                    tag.includes("Pre Placement")
+                                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shadow-[0_0_10px_rgba(0,255,255,0.2)]"
+                                      : "bg-fuchsia-500/20 text-fuchsia-400 border border-fuchsia-500/30"
+                                  }`}
+                                >
+                                  {tag.trim()}
+                                </span>
+                              ),
+                            )}
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start md:text-right gap-4 mt-4 md:mt-0">
-                      <p className="text-xs text-gray-500 md:mb-4">
-                        Posted {internship.year} Days Ago
-                      </p>
-                      <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow text-sm">
-                        <Link href={`/ranking/${internship.id}`}>
-                          View Details →
-                        </Link>
-                      </Button>
-                    </div>
-                    <div className="flex justify-end gap-3 sm:gap-5">
-                      <FavoriteButton
-                        contentId={internship.id}
-                        isFavorited={favoritosIds.has(internship.id)}
-                      />
-                      <Button className="bg-indigo-100 w-7 h-7 rounded-4xl hover:bg-indigo-300 text-black md:mt-4">
-                        <MessageSquare />
-                      </Button>
+                      <div className="flex flex-row md:flex-col items-center md:items-end justify-between  md:text-right gap-4 mt-4 md:mt-22">
+                        {/* <span className="mb-20">
+                          {" "}
+                          ler dps , assistindo , dropado , tc
+                        </span> */}
+                        <Button className="bg-linear-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 text-white shadow-lg shadow-cyan-500/25 hover:shadow-fuchsia-500/25 transition-shadow text-sm">
+                          <Link href={`/ranking/${internship.id}`}>
+                            Ver detalhes →
+                          </Link>
+                        </Button>
+                        <div className="flex justify-end  gap-3 sm:gap-5">
+                          <FavoriteButton
+                            contentId={internship.id}
+                            isFavorited={favoritosIds.has(internship.id)}
+                          />
+                          <Button className="bg-indigo-100 w-7 h-7 rounded-4xl hover:bg-indigo-300 text-black md:mt-4">
+                            <MessageSquare />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
+            <Field orientation="horizontal" className="w-fit">
+              <FieldLabel htmlFor="select-rows-per-page">
+                Rows per page
+              </FieldLabel>
+              <Select
+                defaultValue="25"
+                value={String(limit)}
+                onValueChange={(value) => {
+                  setLimit(Number(value));
+                  setPage(1); // reset página
+                }}
+              >
+                <SelectTrigger className="w-20" id="select-rows-per-page">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent align="start">
+                  <SelectGroup>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="25">25</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                    <SelectItem value="100">100</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Pagination className="mx-0 w-auto">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (page === 1) return;
+                      setPage((p) => p - 1);
+                    }}
+                    className={
+                      page === 1 ? "pointer-events-none opacity-50" : ""
+                    }
+                  />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (page >= 10) return;
+
+                      setPage((p) => p + 1);
+                    }}
+                    className={
+                      page >= 10 ? "pointer-events-none opacity-50" : ""
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </main>
         </div>
       </div>
