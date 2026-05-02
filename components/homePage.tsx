@@ -1,9 +1,26 @@
 "use client";
-
+import { GetContents } from "@/lib/services/content";
 import { Sparkles, ArrowRight, ArrowBigRight } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+  // if (!data) {
+  //   console.log(" error ");
+  const [randomId, setRandomId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: content } = await GetContents();
+
+      const random = content![Math.floor(Math.random() * content!.length)];
+      setRandomId(random.id);
+    };
+    fetchData();
+  }, []);
+
+  if (!randomId) return null;
+
   return (
     <div className="min-h-screen">
       <div className="relative overflow-hidden bg-linear-to-b from-black via-purple-900/20 to-black">
@@ -40,7 +57,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="flex justify-center mt-5">
-            <Link href="/Search">
+            <Link href={`/ranking/${randomId}`}>
               <button className="px-8 cursor-pointer flex flex-row gap-5 py-3 bg-linear-to-r text-xl justify-center items-center from-purple-500 to-pink-500 text-white rounded-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] transition-all hover:translate-x-1">
                 🎲 Me recomenda algo
                 <ArrowBigRight size={24} />
@@ -144,4 +161,7 @@ export default function HomePage() {
       </div>
     </div>
   );
+}
+function setRandomId(random: number) {
+  throw new Error("Function not implemented.");
 }

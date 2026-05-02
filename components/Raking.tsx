@@ -72,27 +72,8 @@ export default async function Ranking() {
   // };
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <div className="min-h-screen pt-10 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center space-x-2 mb-4 px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full">
-            <Trophy className="text-yellow-400" size={20} />
-            <span className="text-yellow-400 text-sm font-medium">
-              Rankings Neon
-            </span>
-          </div>
-
-          {/* header card secundario  */}
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-            <span className="bg-linear-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
-              Top Animes e Filmes
-            </span>
-          </h1>
-
-          <p className="text-gray-400 text-lg">
-            Notas Atualizadas • Destaques da Comunidade
-          </p>
-        </div>
         <div className="flex flex-col border-2 border-black rounded-2xl p-3 sm:p-6 ring-2 ring-white shadow-2xl shadow-white">
           <li className="list-none p-0 m-0">
             <h3 className="text-xl sm:text-2xl font-bold flex flex-row gap-3 items-center justify-center bg-linear-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent text-center">
@@ -135,14 +116,14 @@ export default async function Ranking() {
                     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_130px] grid-rows-1 justify-center items-center gap-4">
                       {/* Icon */}
                       <Link
-                        className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden"
+                        className="w-full h-48 md:h-60 relative rounded-lg overflow-hidden"
                         href={`/ranking/${item.id}`}
                       >
                         <Image
                           src={item.image ?? "/default-image.jpg"}
                           alt={item.name}
                           fill
-                          className="object-cover"
+                          className=""
                         />{" "}
                       </Link>
 
