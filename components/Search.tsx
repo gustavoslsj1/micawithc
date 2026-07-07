@@ -75,7 +75,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
       .map((fav) => fav.content_id),
   );
   const filteredContent = itens.filter((item) => {
-    // filtro de texto (nome, tipo, genero)
     const matchesSearch =
       item.name.toLowerCase().includes(search.toLowerCase()) ||
       item.type.toLowerCase().includes(search.toLowerCase()) ||
@@ -84,15 +83,12 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
           g.toLowerCase().includes(search.toLowerCase()),
         ));
 
-    // filtro tipo
     const matchesType = searchType
       ? item.type.toLowerCase() === searchType
       : true;
 
-    // filtro idade
     const matchesAge = searchAge ? item.idade?.toString() === searchAge : true;
 
-    // filtro genero (input)
     const matchesGenere = searchGenere
       ? Array.isArray(item.generos) &&
         item.generos.some((g) =>
@@ -122,7 +118,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
           </div>
         </div>
 
-        {/* Mobile Filter Toggle Button */}
         <div className="md:hidden mb-4">
           <Button
             onClick={() => setShowFilters(!showFilters)}
@@ -134,7 +129,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
         </div>
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
-          {/* Filters Sidebar */}
           <aside
             className={`w-full md:w-64 shrink-0 ${showFilters ? "block" : "hidden"} md:block`}
           >
@@ -151,9 +145,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
                 </button>
               </div>
 
-              {/* Profile */}
-
-              {/* Internship Type */}
               <div className="mb-5">
                 <div className="space-y-2">
                   <label className="text-sm text-gray-400 mb-2 block">
@@ -182,7 +173,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
                 </div>
               </div>
 
-              {/* Timing */}
               <div className="mb-5">
                 <div className="space-y-2">
                   <label className="text-sm text-gray-400 mb-2 block">
@@ -211,7 +201,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
                 </div>
               </div>
 
-              {/* Buttons */}
               <div className="flex gap-2 mt-6">
                 <Button
                   onClick={() => {
@@ -227,9 +216,7 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
             </div>
           </aside>
 
-          {/* Main Content */}
           <main className="flex-1">
-            {/* Internship Cards */}
             <div className="space-y-4">
               {filteredContent
                 .slice((page - 1) * limit, page * limit)
@@ -239,7 +226,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
                     className="bg-[#12121a] rounded-xl p-4 sm:p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
                   >
                     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_130px] justify-center items-center grid-rows-1 gap-4">
-                      {/* Icon */}
                       <Link href={`/ranking/${internship.id}`}>
                         <div className="w-full h-48 md:h-45 relative rounded-lg overflow-hidden">
                           <Image
@@ -266,7 +252,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
                           </span>
                         </div>
 
-                        {/* Details Grid */}
                         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 mt-4 text-sm">
                           <div className="flex items-center gap-2">
                             <Calendar className="w-4 h-4 text-cyan-400 shrink-0" />
@@ -315,7 +300,6 @@ export default function SearchPag({ itens, user }: SearchPagProps) {
                           </div>
                         </div>
 
-                        {/* Tags */}
                         <div className="flex flex-wrap gap-2 mt-4">
                           {Array.isArray(internship.generos) &&
                             internship.generos.map(

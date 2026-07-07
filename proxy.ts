@@ -6,7 +6,7 @@ export async function proxy(request: NextRequest) {
   const session = await auth0.getSession(request);
   const isLoggedIn = !!session;
   const pathname = request.nextUrl.pathname;
-  const protectedRoutes = ["/ranking", "/review", "/Search", "/teste"]; // rotas que exigem autenticação
+  const protectedRoutes = ["/ranking", "/review", "/Search", "/teste"];
   const isProtected = protectedRoutes.some((route) =>
     pathname.startsWith(route),
   );

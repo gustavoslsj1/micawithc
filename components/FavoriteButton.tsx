@@ -20,7 +20,7 @@ export default function FavoriteButton({
 
   async function handleClick() {
     const prev = favorite;
-    setFavorite(!prev); // otimista
+    setFavorite(!prev);
 
     try {
       const res = await favoriteAction(contentId);

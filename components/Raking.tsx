@@ -114,7 +114,6 @@ export default async function Ranking() {
                     className="bg-[#12121a] rounded-xl p-4 sm:p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] group"
                   >
                     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_130px] grid-rows-1 justify-center items-center gap-4">
-                      {/* Icon */}
                       <Link
                         className="w-full h-48 md:h-60 relative rounded-lg overflow-hidden"
                         href={`/ranking/${item.id}`}
@@ -149,7 +148,6 @@ export default async function Ranking() {
                           </span>
                         </div>
 
-                        {/* Details Grid */}
                         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 mt-4 text-sm w-full">
                           <div className="flex items-center gap-2">
                             <Calendar className="w-4 h-4 text-cyan-400 shrink-0" />
@@ -188,7 +186,6 @@ export default async function Ranking() {
                           </div>
                         </div>
 
-                        {/* Tags */}
                         <div className="flex flex-wrap gap-2 mt-4">
                           {item.generos
                             ?.split("|")

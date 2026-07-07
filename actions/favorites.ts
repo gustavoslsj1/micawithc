@@ -25,7 +25,7 @@ export async function favoriteAction(contentId: number) {
       .eq("user_id", userId)
       .eq("content_id", contentId);
 
-    return { favorited: newValue }; // 🔥 IMPORTANTE
+    return { favorited: newValue };
   } else {
     await supabase.from("favoritos").insert({
       user_id: userId,
@@ -33,7 +33,7 @@ export async function favoriteAction(contentId: number) {
       favoritado: true,
     });
 
-    return { favorited: true }; // 🔥 IMPORTANTE
+    return { favorited: true };
   }
 }
 export async function editNota(contentId: number, nota: number) {
@@ -49,14 +49,12 @@ export async function editNota(contentId: number, nota: number) {
     .maybeSingle();
 
   if (existing) {
-    // update
     await supabase
       .from("favoritos")
       .update({ nota })
       .eq("user_id", userId)
       .eq("content_id", contentId);
   } else {
-    // insert
     await supabase.from("favoritos").insert({
       user_id: userId,
       content_id: contentId,
@@ -64,7 +62,6 @@ export async function editNota(contentId: number, nota: number) {
     });
   }
 
-  // 🔥 chama função centralizada
   await supabase.rpc("rate_content", {
     p_content_id: contentId,
     p_old_nota: existing?.nota ?? null,

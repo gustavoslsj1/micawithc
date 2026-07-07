@@ -18,7 +18,7 @@ export async function insertContent(formData: FormData) {
     .select();
 
   if (error) {
-    console.error(error); // 👈 MOSTRA O ERRO REAL
+    console.error(error);
     throw new Error(error.message);
   }
 }

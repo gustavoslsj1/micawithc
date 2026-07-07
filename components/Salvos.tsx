@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { content } from "@/types/content";
 import { favoritos } from "@/types/favoritos";
 import { Calendar, Clock, Star, Tv } from "lucide-react";
+import { SpinnerCustom } from "./spiner";
 type User = {
   user: {
     userId: string;
@@ -42,6 +43,21 @@ export default function SalvosContent({ user }: User) {
   const favoritosIds = new Set(
     (favoritos ?? []).filter((f) => f.favoritado).map((f) => f.content_id),
   );
+
+  if (!favoritos) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <SpinnerCustom />
+      </div>
+    );
+  }
+  // if (favoritosIds.size === 0) {
+  //   return (
+  //     <div className="min-h-screen flex items-center justify-center bg-black">
+  //       <p className="text-white">Você ainda não tem nenhum item salvo.</p>
+  //     </div>
+  //   );
+  // }
   const favoritosMap = new Map(favoritos.map((fav) => [fav.content_id, fav]));
   return (
     <div className="min-h-screen bg-black">
@@ -51,9 +67,16 @@ export default function SalvosContent({ user }: User) {
             <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
             <h2 className="text-3xl font-bold text-white">Meus Salvos</h2>
           </div>
-          <p className="text-gray-400">
-            Suas séries e filmes favoritos em um só lugar
-          </p>
+          {favoritosIds.size > 0 ? (
+            <p className="text-gray-400">
+              Aqui estão suas séries e filmes favoritos. Clique para ver
+              detalhes e avaliações.
+            </p>
+          ) : (
+            <p className="text-gray-400">
+              Você ainda não tem nenhum item salvo.
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
@@ -67,8 +90,6 @@ export default function SalvosContent({ user }: User) {
                   key={contentItem.id}
                   className="relative rounded-lg overflow-hidden border border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20 group w-full aspect-[2/3]"
                 >
-                  {/* Imagem */}
-
                   <Image
                     fill
                     src={contentItem.image}
@@ -76,12 +97,10 @@ export default function SalvosContent({ user }: User) {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
 
-                  {/* Nota (AGORA CORRETA) */}
                   <div className="absolute top-3 left-2 z-10 bg-black/80 hover:bg-black/90 text-white font-bold px-3 rounded-full">
                     <span className="text-yellow-400">{fav?.nota ?? 0}</span>
                   </div>
 
-                  {/* Favorito */}
                   <div className="absolute top-0 right-2 z-10">
                     <FavoriteButton
                       contentId={contentItem.id}
@@ -89,7 +108,6 @@ export default function SalvosContent({ user }: User) {
                     />
                   </div>
 
-                  {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                     <h3 className="text-white font-semibold text-base mb-2 line-clamp-2">
                       {contentItem.name}
