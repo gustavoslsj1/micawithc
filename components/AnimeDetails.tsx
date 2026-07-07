@@ -95,7 +95,7 @@ export default function AnimeDetails({ id, user }: Props) {
   }
 
   const handleRating = async (value: number) => {
-    setRating(value); // atualiza UI instantaneamente
+    setRating(value);
 
     try {
       await editNota(id, value);
@@ -137,7 +137,6 @@ export default function AnimeDetails({ id, user }: Props) {
   return (
     <main className=" min-h-screen pt-24 pb-16 container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Anime Image */}
         <div className="lg:col-span-1">
           <div className="relative group">
             <div className="absolute -inset-1 bg-linear-to-r from-primary via-secondary to-primary rounded-lg blur opacity-40 group-hover:opacity-75 transition duration-500" />
@@ -152,7 +151,6 @@ export default function AnimeDetails({ id, user }: Props) {
             </Card>
           </div>
 
-          {/* Quick Stats */}
           <div className="mt-6 grid grid-cols-2 gap-4">
             <Card className="border neon-border-cyan bg-card/50 backdrop-blur">
               <CardContent className="p-4 text-center">
@@ -176,9 +174,7 @@ export default function AnimeDetails({ id, user }: Props) {
           </div>
         </div>
 
-        {/* Middle Column - Info & Video */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Title & Info */}
           <div>
             <h1 className="text-4xl font-bold mb-4 text-foreground">
               <span className="neon-text-cyan">{anime.name}</span>
@@ -205,7 +201,6 @@ export default function AnimeDetails({ id, user }: Props) {
               {anime.synopsis}
             </p>
 
-            {/* Info Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-primary" />
@@ -237,7 +232,6 @@ export default function AnimeDetails({ id, user }: Props) {
               </div>
             </div>
 
-            {/* Video Card */}
             <Card className="border-2 neon-border-cyan overflow-hidden">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-primary">
@@ -264,7 +258,6 @@ export default function AnimeDetails({ id, user }: Props) {
               </CardContent>
             </Card>
 
-            {/* Comments Section */}
             <Card className=" mt-4 border-2 neon-border-pink">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-secondary">
@@ -299,7 +292,6 @@ export default function AnimeDetails({ id, user }: Props) {
                   </div>
                 </div>
 
-                {/* Comments List */}
                 <div className="space-y-4 pt-4 border-t border-border">
                   {commentList.map((comment) => (
                     <div key={comment.id} className="flex gap-4 group">

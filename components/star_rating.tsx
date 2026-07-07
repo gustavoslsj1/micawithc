@@ -50,10 +50,8 @@ export default function StarRating({
             className="transition-transform hover:scale-110"
           >
             <div className="relative">
-              {/* Estrela base */}
               <Star size={size} className="text-gray-300" />
 
-              {/* Estrela preenchida */}
               <div
                 className="absolute top-0 left-0 overflow-hidden"
                 style={{

@@ -29,7 +29,6 @@ export default function NavbarClient({ user }: Props) {
   return (
     <header className="border-b border-border/50 backdrop-blur-sm bg-background/80 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
-        {/* Logo */}
         <Link
           href="/"
           className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-cyan-300 hover:via-purple-300 hover:to-pink-300 transition-all"
@@ -37,7 +36,6 @@ export default function NavbarClient({ user }: Props) {
           DC
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-1">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -63,7 +61,6 @@ export default function NavbarClient({ user }: Props) {
           })}
         </nav>
 
-        {/* Desktop Right Section */}
         <div className="hidden md:flex items-center gap-3 lg:gap-4">
           <a href="/auth/logout">
             <Button
@@ -92,7 +89,6 @@ export default function NavbarClient({ user }: Props) {
           </a>
         </div>
 
-        {/* Mobile Right Section */}
         <div className="flex md:hidden items-center gap-2 sm:gap-3">
           <a href="/perfil" className="relative">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-full blur opacity-60" />
@@ -119,7 +115,6 @@ export default function NavbarClient({ user }: Props) {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-cyan-500/20 animate-in slide-in-from-top-2 duration-200">
           <div className="px-4 py-3 space-y-1">

@@ -174,22 +174,16 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-
       <main className="container mx-auto px-4 py-8">
-        {/* Profile Header Section */}
         <div className="relative mb-8">
-          {/* Banner Background */}
           <div className="h-48 rounded-xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--neon-cyan)_0%,_transparent_70%)] opacity-20" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,_var(--neon-pink)_0%,_transparent_50%)] opacity-20" />
           </div>
 
-          {/* Profile Info Card */}
           <Card className="relative -mt-24 mx-4 md:mx-12 border-2 neon-border-cyan bg-card/95 backdrop-blur">
             <CardContent className="p-6">
               <div className="flex flex-col md:flex-row items-start gap-6">
-                {/* Avatar */}
                 <div className="relative -mt-16 md:-mt-20">
                   <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-primary rounded-full blur opacity-60 animate-pulse" />
                   <Avatar className="relative h-28 w-28 md:h-36 md:w-36 border-4 border-background">
@@ -200,7 +194,6 @@ export default function ProfilePage() {
                   </Avatar>
                 </div>
 
-                {/* User Info */}
                 <div className="flex-1 pt-2">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
@@ -250,7 +243,6 @@ export default function ProfilePage() {
                     </span>
                   </div>
 
-                  {/* Favorite Genres */}
                   <div className="flex  justify-between   flex-wrap gap-2 mt-4">
                     <div>
                       {userData.favoriteGenres.map((genre) => (
@@ -344,7 +336,6 @@ export default function ProfilePage() {
           </Card>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           <Card className="border neon-border-cyan bg-card/50 backdrop-blur hover:scale-105 transition-transform">
             <CardContent className="p-4 text-center">
@@ -403,7 +394,6 @@ export default function ProfilePage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content - Anime Lists */}
           <div className="lg:col-span-2">
             <Card className="border-2 neon-border-cyan">
               <CardHeader>
@@ -438,7 +428,6 @@ export default function ProfilePage() {
                     </TabsTrigger>
                   </TabsList>
 
-                  {/* Watching Tab */}
                   <TabsContent value="watching" className="space-y-4">
                     {animeList.watching.map((anime) => (
                       <Card
@@ -487,7 +476,6 @@ export default function ProfilePage() {
                     ))}
                   </TabsContent>
 
-                  {/* Completed Tab */}
                   <TabsContent value="completed" className="space-y-4">
                     {animeList.completed.map((anime) => (
                       <Card
@@ -548,7 +536,6 @@ export default function ProfilePage() {
                     ))}
                   </TabsContent>
 
-                  {/* Plan to Watch Tab */}
                   <TabsContent value="planToWatch" className="space-y-4">
                     {animeList.planToWatch.map((anime) => (
                       <Card
@@ -607,9 +594,7 @@ export default function ProfilePage() {
             </Card>
           </div>
 
-          {/* Sidebar - Activity & Favorites */}
           <div className="space-y-6">
-            {/* Recent Activity */}
             <Card className="border-2 neon-border-pink">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-secondary neon-text-pink">
@@ -656,7 +641,6 @@ export default function ProfilePage() {
               </CardContent>
             </Card>
 
-            {/* Favorite Anime */}
             <Card className="border-2 neon-border-cyan">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-primary neon-text-cyan">
@@ -690,7 +674,6 @@ export default function ProfilePage() {
               </CardContent>
             </Card>
 
-            {/* Quick Actions */}
             <Card className="border border-border/50 bg-card/50">
               <CardHeader>
                 <CardTitle className="text-foreground text-lg">
@@ -725,7 +708,6 @@ export default function ProfilePage() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-border/50 mt-12 py-8">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
           <p className="neon-text-cyan text-primary font-bold">CyberReview</p>
